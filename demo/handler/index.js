@@ -1,26 +1,24 @@
 const Es = require('easy-wechat');
 const es = new Es({
-    wkey: {
-        platform: {
-            appId: 'xxxx',
-            secret: 'xxxx',
-            token: 'xxxxxx'
-        },
-        wxApp: {
-            appId: 'xxxxxxxx',
-            secret: 'xxxxxxxxxxxxxxxxx',
-            msgPush: {
-                token: 'xxxxxxxxxxxxxxxxxx',
-                encodingAESKey: 'xxxxxxxxxxxxxx'
-            }
-        },
-        payment: {
-            appId: 'xxxxxxxxxx',
-            mchId: 'xxxxxxxxx',
-            key: 'xxxxxxxxxxxx',
-            notifyUrl: 'xxxxxxxxxxxxxxxxxxxx'
+    platform: {
+        appId: 'xxxx',
+        secret: 'xxxx',
+        token: 'xxxxxx'
+    },
+    wxApp: {
+        appId: 'xxxxxxxx',
+        secret: 'xxxxxxxxxxxxxxxxx',
+        msgPush: {
+            token: 'xxxxxxxxxxxxxxxxxx',
+            encodingAESKey: 'xxxxxxxxxxxxxx'
         }
     },
+    payment: {
+        appId: 'xxxxxxxxxx',
+        mchId: 'xxxxxxxxx',
+        key: 'xxxxxxxxxxxx',
+        notifyUrl: 'xxxxxxxxxxxxxxxxxxxx'
+    }
 });
 
 module.exports = (router) => {
