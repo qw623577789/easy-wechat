@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "easy-wechat": "1.0.0",
+    "easy-wechat": "1.0.1",
     "express": "^4.16.2"
   }
 }

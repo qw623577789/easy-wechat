@@ -1,11 +1,10 @@
 {
   "name": "easy-wechat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "assert": "^1.4.1",
-    "cors": "^2.8.4",
     "crypto": "0.0.3",
     "dateformat": "^2.2.0",
     "form-data": "^2.2.0",
@@ -14,7 +13,6 @@
     "semantic-schema": "^0.1.13",
     "should": "^13.2.1",
     "skip-request": "0.0.3",
-    "tern": "^0.21.0",
     "uuid": "^3.1.0",
     "xml": "^1.0.1",
     "xml2js-parser": "^1.1.1"
