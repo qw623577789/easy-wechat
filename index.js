@@ -29,7 +29,7 @@ module.exports = class {
         })
 
         let validator = new Validator(schema);
-        validator.validate(schema);
+        validator.validate(opts);
 
         this._logger = new Logger(logDirectory);
         this._config = opts;
