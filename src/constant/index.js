@@ -10,6 +10,15 @@ module.exports = class {
             EncrypType: {
                 MD5:'MD5',
                 SHA256:'SHA256'
+            },
+            TradeStatus: {
+                SUCCESS: 'SUCCESS',
+                REFUND: 'REFUND',
+                NOTPAY: 'NOTPAY',
+                CLOSED: 'CLOSED',
+                REVOKED: 'REVOKED',
+                USERPAYING: 'USERPAYING',
+                PAYERROR: 'PAYERROR'
             }
         }
     }
