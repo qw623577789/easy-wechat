@@ -21,7 +21,7 @@ module.exports = class {
 
     package(text){
         let timeStr = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss,l');
-        let log = `[${timeStr}]${text.replace(/\n/g,'')}`;
+        let log = `[${timeStr}]${text}`;
         if (this._fileDir == undefined) {
             console.log(log);
         }
