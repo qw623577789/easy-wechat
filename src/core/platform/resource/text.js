@@ -1,10 +1,7 @@
-const Resource = require('./index.js');
-module.exports = class TextResource extends Resource{
+module.exports = class TextResource{
     constructor(text){
-        let type = "text";
-        super(type, "");
         this._text =  text;
-        this._type = type;
+        this._type = "text";
     }
 
     toWechatAttr(){

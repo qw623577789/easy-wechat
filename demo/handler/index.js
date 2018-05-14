@@ -28,7 +28,7 @@ module.exports = (router) => {
 
     //支付～～～～～
     router.get('/payment.create',async (request, response) => {
-        let info = await es.payment.create(Date.now(), "description", "detail", 101, Es.Constant.Payment.TradeType.JS, '127.0.0.1', 'o1Iue1FB0xBCaZQVqH3qMbZasr18');
+        let info = await es.payment.create(Date.now(), "description", "detail", 101, Es.Constant.Payment.TradeType.JS, 'o1Iue1FB0xBCaZQVqH3qMbZasr18', '127.0.0.1');
         response.json(info);
     });
 

@@ -29,7 +29,7 @@ module.exports = class extends Base{
         return await this._request(queryData);
     }
 
-    async sendLink(openId, title, description, url, picUrl, thumbUrl){
+    async sendLink(openId, title, description, url, thumbUrl){
         let queryData = {
             touser: openId,  
             msgtype: "link",
@@ -37,7 +37,6 @@ module.exports = class extends Base{
                 title: title,
                 description: description,
                 url: url,
-                picurl: picUrl,
                 thumb_url: thumbUrl
             }
         }
