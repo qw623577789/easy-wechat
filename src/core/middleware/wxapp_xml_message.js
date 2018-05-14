@@ -62,7 +62,7 @@ module.exports = class extends Base {
         let msgLen = lenNetOrderCorpid.slice(0, 4).readUInt32BE(0);
         return {
             appId: lenNetOrderCorpid.slice(msgLen + 4).toString(),
-            msg: await this._xmlToJson(lenNetOrderCorpid.slice(4, msgLen + 4).toString())
+            msg: xml2js(lenNetOrderCorpid.slice(4, msgLen + 4).toString(), { explicitArray : false, ignoreAttrs : true })
         }
     }
     
