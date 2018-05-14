@@ -67,20 +67,28 @@ declare namespace EasyWechat {
             constructor(text: string);
         }
 
-        class Article {
-            constructor(mediaId: string, title: string, description: string, musicUrl: string, hqMusicUrl: string, thumbMediaId: string);
+        interface Article {
+            thumbMediaId: string,
+            title: string, 
+            description: string, 
+            picUrl: string, 
+            url: string
         }
 
+        class Article {
+            constructor(artistList: Article[]);
+        }
+        
         class Image {
             constructor(mediaId: string);
         }
 
         class Music {
-            constructor(mediaId: string, title: string, description: string, musicUrl: string, hqMusicUrl: string, thumbMediaId: string);
+            constructor(thumbMediaId: string, title?: string, description?: string, musicUrl?: string, hqMusicUrl?: string);
         }
 
         class Video {
-            constructor(mediaId: string, title: string, description: string);
+            constructor(mediaId: string, title?: string, description?: string);
         }
 
         class Voice {
@@ -156,7 +164,7 @@ declare namespace EasyWechatWxAppFunc {
     interface CSMessage {
         sendText(openId: string, text: string): Promise<any>;
         sendImage(openId: string, mediaId: string): Promise<any>;
-        sendLink(openId: string, title: string, description: string, url: string, picUrl: string, thumbUrl: string): Promise<any>;
+        sendLink(openId: string, title: string, description: string, url: string, thumbUrl: string): Promise<any>;
         sendPage(openId: string, title: string, wxAppPath: string, thumbMediaId: string): Promise<any>;
     }
 

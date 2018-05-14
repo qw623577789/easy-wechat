@@ -1,13 +1,17 @@
-const Resource = require('./index.js');
-module.exports = class ImageResource extends Resource{
+module.exports = class ImageResource{
     constructor(mediaId){
-        let type = "image";
-        super(type, mediaId);
         this._mediaId =  mediaId;
-        this._type = type;
+        this._type = "image";
     }
 
     toWechatAttr(){
-        return [{MsgType:{_cdata:this._type}}, {Image:[{MediaId:{_cdata:this._mediaId}}]}]
+        return [
+            {
+                MsgType: {_cdata:this._type}
+            }, 
+            {
+                MediaId: {_cdata: this._mediaId}
+            }
+        ]
     }
 }

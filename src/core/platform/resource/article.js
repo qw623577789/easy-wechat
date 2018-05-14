@@ -1,28 +1,37 @@
-const Resource = require('./index.js');
-
-module.exports = class ArticleResource extends Resource{
-    constructor(mediaId, title, description, musicUrl, hqMusicUrl, thumbMediaId){
-        let type = "news";
-        super(type, mediaId);
-        //todo
-        this._type = type;
+module.exports = class ArticleResource{
+    constructor(articles){
+        this._type = "news";
+        this._articles = articles;
     }
 
     toWechatAttr(){
-        return [
+        let attr = [
             {
-                MsgType:{_cdata:this._type}
+                MsgType: {_cdata: this._type}
             }, 
             {
-                // Video:[
-                //     {ThumbMediaId:{_cdata:this._mediaId}},
-                //     {Title:{_cdata:this._title}},
-                //     {Description:{_cdata:this._description}},
-                //     {MusicURL:{_cdata:this._musicUrl}},
-                //     {HQMusicUrl:{_cdata:this._hqMusicUrl}},
-                //     {Description:{_cdata:this._description}}
-                // ]
+                ArticleCount: this._articles.length
             }
         ]
+
+        attr.push({
+            Articles: this._articles.map(_ => ({
+                item: [
+                    {
+                        Title: {_cdata: _.title}
+                    }, 
+                    {
+                        Description: {_cdata: _.description}
+                    }, 
+                    {
+                        PicUrl: {_cdata: _.picUrl}
+                    }, 
+                    {
+                        Url: {_cdata: _.url}
+                    }
+                ]
+            }))
+        })
+        return attr;
     }
 }

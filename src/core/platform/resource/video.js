@@ -1,26 +1,33 @@
-const Resource = require('./index.js');
-module.exports = class VideoResource extends Resource{
-    constructor(mediaId, title, description){
-        let type = "video";
-        super(type, mediaId);
+module.exports = class VideoResource {
+    constructor(mediaId, title = undefined, description = undefined){
         this._mediaId =  mediaId;
         this._title =  title;
         this._description =  description;
-        this._type = type;
+        this._type = "video";
     }
 
     toWechatAttr(){
-        return [
+        let attr = [
             {
                 MsgType:{_cdata:this._type}
             }, 
             {
-                Video:[
-                    {MediaId:{_cdata:this._mediaId}},
-                    {Title:{_cdata:this._title}},
-                    {Description:{_cdata:this._description}}
-                ]
+                MediaId:{_cdata:this._mediaId}
             }
         ]
+
+        if (this._title != undefined) {
+            attr.push(
+                {Title: {_cdata: this._title}}
+            )
+        }
+
+        if (this._description != undefined) {
+            attr.push(
+                {Description:{_cdata:this._description}}
+            )
+        }
+
+        return attr;
     }
 }

@@ -1,10 +1,7 @@
-const Resource = require('./index.js');
-module.exports = class VoiceResource extends Resource{
+module.exports = class VoiceResource {
     constructor(mediaId){
-        let type = "voice";
-        super(type, mediaId);
         this._mediaId =  mediaId;
-        this._type = type;
+        this._type = "voice";
     }
 
     toWechatAttr(){
@@ -13,9 +10,7 @@ module.exports = class VoiceResource extends Resource{
                 MsgType:{_cdata:this._type}
             }, 
             {
-                Voice:[
-                    {MediaId:{_cdata:this._mediaId}},
-                ]
+                MediaId:{_cdata: this._mediaId}
             }
         ]
     }

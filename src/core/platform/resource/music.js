@@ -1,32 +1,47 @@
-const Resource = require('./index.js');
-module.exports = class MusicResource extends Resource{
-    constructor(mediaId, title, description, musicUrl, hqMusicUrl, thumbMediaId){
-        let type = "music";
-        super(type, mediaId);
-        this._mediaId =  mediaId;
+module.exports = class MusicResource{
+    constructor(thumbMediaId, title = undefined, description = undefined, musicUrl = undefined, hqMusicUrl = undefined){
         this._title =  title;
         this._description =  description;
         this._musicUrl =  musicUrl;
         this._hqMusicUrl =  hqMusicUrl;
         this._thumbMediaId =  thumbMediaId;
-        this._type = type;
+        this._type = "music";
     }
 
     toWechatAttr(){
-        return [
+        let attr = [
             {
-                MsgType:{_cdata:this._type}
+                MsgType: {_cdata:this._type}
             }, 
             {
-                Video:[
-                    {ThumbMediaId:{_cdata:this._mediaId}},
-                    {Title:{_cdata:this._title}},
-                    {Description:{_cdata:this._description}},
-                    {MusicURL:{_cdata:this._musicUrl}},
-                    {HQMusicUrl:{_cdata:this._hqMusicUrl}},
-                    {Description:{_cdata:this._description}}
-                ]
+                ThumbMediaId: {_cdata:this._thumbMediaId}
             }
         ]
+
+        if (this._title != undefined) {
+            attr.push({
+                Title: {_cdata: this._title}
+            })
+        }
+
+        if (this._description != undefined) {
+            attr.push({
+                Description: {_cdata: this._description}
+            })
+        }
+
+        if (this._musicUrl != undefined) {
+            attr.push({
+                MusicURL: {_cdata: this._musicUrl}
+            })
+        }
+
+        if (this._hqMusicUrl != undefined) {
+            attr.push({
+                HQMusicUrl: {_cdata: this._hqMusicUrl}
+            })
+        }
+
+        return attr;
     }
 }

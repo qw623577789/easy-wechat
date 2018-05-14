@@ -58,9 +58,9 @@ module.exports = class {
         let JS = require('./src/core/platform/js');
         let js = new JS(this.logger, this.config);
 
-        let resource = require('./src/core/platform/resource');
+        let Resource = require('./src/core/platform/resource');
 
-        return {oauth, user, menu, js, resource}
+        return {oauth, user, menu, js, Resource}
     }
 
     get payment() {
