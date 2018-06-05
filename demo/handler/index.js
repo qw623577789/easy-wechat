@@ -145,6 +145,24 @@ module.exports = (router) => {
         response.end('ok');
     });
 
+    router.get('/platform.msg.template.push',async (request, response) => {
+        let info = await es.platform.templateMsg.push('oga5Q0fEb_X7_NFu5EpcvkMp3Qzo', 'TBr4NsHapnwLL_OjfJeWL1AJvUTY5qhVsLFQyaNwG6U', {
+            keyword1: {
+                value:  'TIT造舰厂',
+                color: '#123455'
+            },
+            keyword2: {
+                value:  '2016年6月6日',
+                color: '#223455'
+            },
+            keyword3: {
+                value:  '咖啡',
+                color: '#323455'
+            }
+        });
+        response.json(info);
+    });
+    
     router.get('/platform.menu.set',async (request, response) => {
         let menuInfo = {
             "button":[

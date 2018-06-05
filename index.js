@@ -60,7 +60,10 @@ module.exports = class {
 
         let Resource = require('./src/core/platform/resource');
 
-        return {oauth, user, menu, js, Resource}
+        let TemplateMessage = require('./src/core/platform/msg/index.js');
+        let templateMessage = new TemplateMessage(this.logger, this.config);
+
+        return {oauth, user, menu, js, Resource, templateMsg: templateMessage}
     }
 
     get payment() {
