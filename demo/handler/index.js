@@ -26,14 +26,25 @@ module.exports = (router) => {
         response.end(request.query.echostr);
     });
 
+    router.get('/wxapp.msg.push',(request, response) => {
+        response.end(request.query.echostr);
+    });
+    
     //支付～～～～～
     router.get('/payment.create',async (request, response) => {
-        let info = await es.payment.create(Date.now(), "description", "detail", 101, Es.Constant.Payment.TradeType.JS, 'o1Iue1FB0xBCaZQVqH3qMbZasr18', '127.0.0.1');
+        let info = await es.payment.order.create({
+            orderId: Date.now() + "", 
+            description: "description", 
+            detail: "detail", 
+            price: 101, 
+            tradeType: Es.Constant.Payment.TradeType.JS, 
+            openId: 'o1Iue1FB0xBCaZQVqH3qMbZasr18'
+        });
         response.json(info);
     });
 
     router.get('/payment.get',async (request, response) => {
-        let info = await es.payment.get('20180316024129108919103', '');
+        let info = await es.payment.order.get({wechatOrderId: '4958177130220180623034118345993'});
         response.json(info);
     });
 
@@ -60,7 +71,7 @@ module.exports = (router) => {
             '20f0a04COwfneQAGGwd5oa+T8yO5hzuy'+
             'Db/XcxxmK01EpqOyuxINew==';
         let iv = 'r7BXXKkLb8qrSNn05n0qiA==';
-        let info = es.wxApp.user.infoDecrypt(encryptedData, iv, sessionKey);
+        let info = es.wxApp.user.infoDecrypt({encryptedData, iv, sessionKey});
         response.json(info);
     });
 
@@ -73,38 +84,61 @@ module.exports = (router) => {
 
     //推送
     router.get('/wxapp.msg.cs.text.send',async (request, response) => {
-        let info = await es.wxApp.msg.cs.sendText('owqhY5MvPbuiJcnBmjb0cXv3pJdE', "11111");
+        let info = await es.wxApp.msg.cs.textSend({
+            openId: 'owqhY5MvPbuiJcnBmjb0cXv3pJdE', 
+            text: "11111"
+        });
         response.json(info);
     });
 
     router.get('/wxapp.msg.template.push',async (request, response) => {
         let formId = request.query.formId;
-        let info = await es.wxApp.msg.template.push('owqhY5MvPbuiJcnBmjb0cXv3pJdE', 'Tfyej4uqRudQkfwAXKlrTl11IN_2N0wyQn79zNMb6nk', formId, {
-            keyword1: {
-                value:  'TIT造舰厂',
-                color: '#123455'
-            },
-            keyword2: {
-                value:  '2016年6月6日',
-                color: '#223455'
-            },
-            keyword3: {
-                value:  '咖啡',
-                color: '#323455'
-            }
-        }, 'keyword1.DATA', 'index?foo=bar', '#173177');
-        response.json(info);
+        let info = await es.wxApp.msg.template.push({
+            openId: 'owqhY5MvPbuiJcnBmjb0cXv3pJdE', 
+            templateId: 'Tfyej4uqRudQkfwAXKlrTl11IN_2N0wyQn79zNMb6nk', 
+            formId, 
+            modelData:{
+                keyword1: {
+                    value:  'TIT造舰厂',
+                    color: '#123455'
+                },
+                keyword2: {
+                    value:  '2016年6月6日',
+                    color: '#223455'
+                },
+                keyword3: {
+                    value:  '咖啡',
+                    color: '#323455'
+                }
+            }, 
+            emphasisKeyword: 'keyword1.DATA', 
+            wxAppPagePath: 'index?foo=bar', 
+            color: '#173177'
+        });
     });
 
     //二维码
     router.get('/wxapp.qrCode.a.get',async (request, response) => {
-        let buffer = await es.wxApp.qrCode.getAQRCode('http://www.baidu.com', 500, false, {r:5, g:3, b: 2});
+        let buffer = await es.wxApp.qrCode.aGet({
+            pagePath: 'http://www.baidu.com', 
+            width: 500, 
+            autoColor: true, 
+            lineColor: {r:5, g:3, b: 2},
+            isHyaline: true
+        });
         response.set("Content-Type",'image/jpeg');
         response.send(buffer);
     });
 
     router.get('/wxapp.qrCode.b.get',async (request, response) => {
-        let buffer = await es.wxApp.qrCode.getBQRCode("scene", 'pages/index/index', 500, false, {r:8, g:3, b: 2});
+        let buffer = await es.wxApp.qrCode.bGet({
+            scene: "scene", 
+            pagePath: 'pages/index/index', 
+            width: 500, 
+            autoColor: true, 
+            lineColor: {r:5, g:3, b: 2},
+            isHyaline: true
+        });
         response.set("Content-Type",'image/jpeg');
         response.send(buffer);
     });
@@ -118,19 +152,19 @@ module.exports = (router) => {
     
     router.get('/platform.user.get_by_oauth_accessToken',async (request, response) => {
         let code = request.query.code;
-        let {access_token: accessToken} = await es.platform.oauth.accessToken.get(code);
-        let info = await es.platform.user.infoGetByOAuthAccessToken(accessToken, 'oga5Q0fEb_X7_NFu5EpcvkMp3Qzo');
+        let {accessToken} = await es.platform.oauth.accessToken.get(code);
+        let info = await es.platform.user.infoGetByOAuthAccessToken({accessToken, openId: 'oga5Q0fEb_X7_NFu5EpcvkMp3Qzo'});
         response.json(info);
     });
 
     //code
     router.get('/platform.code.get_for_base',async (request, response) => {
-        let url = await es.platform.oauth.code.getForBase('https://wechat.dierxuetang.com/platform.user.get_by_oauth_accessToken');console.log(url)
+        let url = await es.platform.oauth.code.getForBase({redirectUrl: 'https://wechat.dierxuetang.com/platform.user.get_by_oauth_accessToken'});
         response.redirect(url);
     });
     
     router.get('/platform.user.get_for_user_info',async (request, response) => {
-        let url = await es.platform.oauth.code.getForUserInfo('https://wechat.dierxuetang.com/platform.user.get_by_oauth_accessToken');
+        let url = await es.platform.oauth.code.getForUserInfo({redirectUrl: 'https://wechat.dierxuetang.com/platform.user.get_by_oauth_accessToken'});
         response.redirect(url);
     });
 
@@ -146,18 +180,22 @@ module.exports = (router) => {
     });
 
     router.get('/platform.msg.template.push',async (request, response) => {
-        let info = await es.platform.templateMsg.push('oga5Q0fEb_X7_NFu5EpcvkMp3Qzo', 'TBr4NsHapnwLL_OjfJeWL1AJvUTY5qhVsLFQyaNwG6U', {
-            keyword1: {
-                value:  'TIT造舰厂',
-                color: '#123455'
-            },
-            keyword2: {
-                value:  '2016年6月6日',
-                color: '#223455'
-            },
-            keyword3: {
-                value:  '咖啡',
-                color: '#323455'
+        let info = await es.platform.templateMsg.push({
+            openId: 'oga5Q0fEb_X7_NFu5EpcvkMp3Qzo', 
+            templateId: 'TBr4NsHapnwLL_OjfJeWL1AJvUTY5qhVsLFQyaNwG6U', 
+            modelData: {
+                keyword1: {
+                    value:  'TIT造舰厂',
+                    color: '#123455'
+                },
+                keyword2: {
+                    value:  '2016年6月6日',
+                    color: '#223455'
+                },
+                keyword3: {
+                    value:  '咖啡',
+                    color: '#323455'
+                }
             }
         });
         response.json(info);
@@ -205,21 +243,21 @@ module.exports = (router) => {
     });
 
     //middleware
-    router.use('/wxapp.msg.push', es.middleware.wxAppJsonMessage, (request) => {
+    router.post('/wxapp.msg.push', es.middleware.wxAppJsonMessage((request) => {
         console.log(request.body)
-    })
+    }))
 
-    router.use('/wxapp.msg.push', es.middleware.wxAppXmlMessage, (request) => {
+    router.post('/wxapp.msg.push', es.middleware.wxAppXmlMessage((request) => {
         console.log(request.body)
-    })
+    }))
 
-    router.use('/platform.msg.push', es.middleware.platformMessage, (request, response) => {
+    router.use('/platform.msg.push', es.middleware.platformMessage((request, resource) => {
         console.log(request.body);
-        let a = es.platform.resource;
-        response.reply(new es.platform.resource.Text('2222222'))
-    })
+        return resource.text('2222222');
+    }))
 
-    router.use('/payment.notify', es.middleware.payment, (request) => {
+    router.use('/payment.notify', es.middleware.payment((request) => {
         console.log(request.body);
-    })
+    }))
+
 }

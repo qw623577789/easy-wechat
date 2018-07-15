@@ -5,7 +5,7 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async sendText(openId, text){
+    async textSend({openId, text}){
         let queryData = {
             touser: openId,  
             msgtype: "text",
@@ -14,10 +14,10 @@ module.exports = class extends Base{
             }
         }
 
-        return await this._request(queryData);
+        await this._request(queryData);
     }
 
-    async sendImage(openId, mediaId){
+    async imageSend({openId, mediaId}){
         let queryData = {
             touser: openId,  
             msgtype: "image",
@@ -26,10 +26,10 @@ module.exports = class extends Base{
             }
         }
 
-        return await this._request(queryData);
+        await this._request(queryData);
     }
 
-    async sendLink(openId, title, description, url, thumbUrl){
+    async linkSend({openId, title, description, url, thumbUrl}){
         let queryData = {
             touser: openId,  
             msgtype: "link",
@@ -41,22 +41,21 @@ module.exports = class extends Base{
             }
         }
 
-        return await this._request(queryData);
+        await this._request(queryData);
     }
 
-    async sendPage(openId, title, wxAppPath, thumbMediaId){
+    async pageSend({openId, title, wxAppPath, thumbMediaId}){
         let queryData = {
             touser: openId,  
             msgtype: "miniprogrampage",
             miniprogrampage: {
                 title: title,
                 pagepath: wxAppPath,
-                url: url,
                 thumb_media_id: thumbMediaId
             }
         }
 
-        return await this._request(queryData);
+        await this._request(queryData);
     }
 
     async _request(queryData) {

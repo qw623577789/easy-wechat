@@ -4,9 +4,14 @@ const Base = require('../base.js');
 module.exports = class extends Base {
     constructor(logger, config = undefined) {
         super(logger, config);
+        this._replier = null;
     }
 
-    async handle(request, response, next) {
+    set replier(replier) {
+        this._replier = replier;
+    }
+
+    async handle(request, response) {
         try {
             let {msg_signature: rawSignature, rawTimestamp, rawNonce} = request.query;
 
@@ -29,12 +34,9 @@ module.exports = class extends Base {
             this._signatureCheck(jsonRequest.Encrypt, rawSignature, rawTimestamp, rawNonce);
             request.body = this._decryptMsg(jsonRequest.Encrypt);
 
-            next();
+            if (this._replier != undefined) await this._replier(request);
+            response.end('success');
 
-            //处理程序结束，若没有返回内容，则默认向微信回应success
-            if(!response.finished){
-                response.end('success');
-            }
         } catch (error) {
             this.logger.error(`err in responseToWechat:${error.stack}`);
             response.end('success');
@@ -58,9 +60,15 @@ module.exports = class extends Base {
         decipheredBuff = this._pKCS7Decoder(decipheredBuff);
         let lenNetOrderCorpid = decipheredBuff.slice(16);
         let msgLen = lenNetOrderCorpid.slice(0, 4).readUInt32BE(0);
+        let data = JSON.parse(lenNetOrderCorpid.slice(4, msgLen + 4).toString());
+        let msg = {};
+        Object.keys(data).forEach(key => {
+            msg[key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())] = data[key];
+        });
+
         return {
             appId: lenNetOrderCorpid.slice(msgLen + 4).toString(),
-            msg: JSON.parse(lenNetOrderCorpid.slice(4, msgLen + 4).toString())
+            msg
         }
     }
     

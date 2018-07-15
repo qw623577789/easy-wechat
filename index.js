@@ -1,4 +1,4 @@
-const {validator: Validator, describer: {string, object, integer, empty, array, boolean}} = require('semantic-schema');
+const {validator: Validator, schema: {string, object, integer, empty, array, boolean}} = require('semantic-schema');
 const Logger = require('./src/lib/logger');
 
 
@@ -24,8 +24,9 @@ module.exports = class {
                 appId: string(),
                 mchId: string(),
                 key: string(),
-                notifyUrl: string()
-            }).requiredAll()
+                notifyUrl: string(),
+                pfxFile: string().desc('微信商户平台证书')
+            }).required('appId', 'mchId', 'key', 'notifyUrl')
         })
 
         let validator = new Validator(schema);
@@ -58,18 +59,27 @@ module.exports = class {
         let JS = require('./src/core/platform/js');
         let js = new JS(this.logger, this.config);
 
-        let Resource = require('./src/core/platform/resource');
-
         let TemplateMessage = require('./src/core/platform/msg/index.js');
         let templateMessage = new TemplateMessage(this.logger, this.config);
 
-        return {oauth, user, menu, js, Resource, templateMsg: templateMessage}
+        return {oauth, user, menu, js, templateMsg: templateMessage}
     }
 
     get payment() {
-        let Payment = require('./src/core/payment');
-        let payment = new Payment(this.logger, this.config);
-        return payment;
+        let Common = require('./src/core/payment/common');
+        let common = new Common(this.logger, this.config);
+
+        let Order = require('./src/core/payment/order');
+        let order = new Order(this.logger, this.config);
+
+        let RedPacket = require('./src/core/payment/red_packet');
+        let redPacket = new RedPacket(this.logger, this.config);
+
+        return {
+            common,
+            order,
+            redPacket
+        };
     }
 
     get wxApp() {
@@ -113,10 +123,22 @@ module.exports = class {
         let wxAppXmlMessage = new WxAppXmlMessage(this.logger, this.config);
 
         return {
-            platformMessage: (request, response, next) => platformMessage.handle(request, response, next),
-            payment: (request, response, next) => payment.handle(request, response, next),
-            wxAppJsonMessage: (request, response, next) => wxAppJsonMessage.handle(request, response, next),
-            wxAppXmlMessage: (request, response, next) => wxAppXmlMessage.handle(request, response, next)
+            platformMessage: (replier = undefined) => {
+                platformMessage.replier = replier;
+                return (request, response) => platformMessage.handle(request, response);
+            },
+            payment: (replier = undefined) => {
+                payment.replier = replier;
+                return (request, response) => payment.handle(request, response);
+            },
+            wxAppJsonMessage: (replier = undefined) => {
+                wxAppJsonMessage.replier = replier;
+                return (request, response) => wxAppJsonMessage.handle(request, response);
+            },
+            wxAppXmlMessage: (replier = undefined) => {
+                wxAppXmlMessage.replier = replier;
+                return (request, response) => wxAppXmlMessage.handle(request, response);
+            }
         }
     }
 

@@ -5,7 +5,7 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async push(openId, templateId, formId, modelData, emphasisKeyword = undefined, wxAppPagePath = undefined, color = undefined){
+    async push({openId, templateId, formId, modelData, emphasisKeyword = undefined, wxAppPagePath = undefined, color = undefined}){
         let queryData = {
             touser: openId,  
             template_id: templateId,
@@ -21,7 +21,7 @@ module.exports = class extends Base{
                         .url(`https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=${accessToken}`)
                         .json(queryData)
                         .execute();
-        return this.commonResponseJsonParse(response);
+        this.commonResponseJsonParse(response);
     }
 
 }
