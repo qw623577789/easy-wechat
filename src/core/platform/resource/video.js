@@ -1,5 +1,5 @@
 module.exports = class VideoResource {
-    constructor(mediaId, title = undefined, description = undefined){
+    constructor({mediaId, title = undefined, description = undefined}){
         this._mediaId =  mediaId;
         this._title =  title;
         this._description =  description;

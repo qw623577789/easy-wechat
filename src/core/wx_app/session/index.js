@@ -9,7 +9,15 @@ module.exports = class extends Base{
         let response = await this.request.post
                         .url(`https://api.weixin.qq.com/sns/jscode2session?appid=${this.config.wxApp.appId}&secret=${this.config.wxApp.secret}&js_code=${code}&grant_type=authorization_code`)
                         .execute();
-        return this.commonResponseJsonParse(response);
+        response = this.commonResponseJsonParse(response);
+
+        let output = {
+            openId: response.openid,
+            sessionKey: response.session_key
+        }
+
+        if (response.unionid != undefined) output.unionId = response.unionid;
+        return output;
     }
 
 }

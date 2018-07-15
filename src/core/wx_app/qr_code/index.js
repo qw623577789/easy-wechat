@@ -6,12 +6,12 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async getBQRCode(scene, pagePath, width=430, autoColor=false, lineColor={r:0, g:0, b:0}) {
+    async bGet({scene, pagePath, width=430, autoColor=false, lineColor={r:0, g:0, b:0}, isHyaline=false}) {
         let accessToken = await this.config.context.wxApp.accessToken();
         let response = await this.request.post
                         .url(`https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${accessToken}`)
                         .json({
-                            scene, path: pagePath, width, auto_color: autoColor, line_color: lineColor
+                            scene, path: pagePath, width, auto_color: autoColor, line_color: lineColor, is_hyaline:isHyaline
                         })
                         .execute();
 
@@ -24,12 +24,12 @@ module.exports = class extends Base{
         return response.toBuffer();
     }
 
-    async getAQRCode(pagePath, width=430, autoColor=false, lineColor={r:0, g:0, b:0}) {
+    async aGet({pagePath, width=430, autoColor=false, lineColor={r:0, g:0, b:0}, isHyaline=false}) {
         let accessToken = await this.config.context.wxApp.accessToken();
         let response = await this.request.post
                         .url(`https://api.weixin.qq.com/wxa/getwxacode?access_token=${accessToken}`)
                         .json({
-                            path: pagePath, width, auto_color: autoColor, line_color: lineColor
+                            path: pagePath, width, auto_color: autoColor, line_color: lineColor, is_hyaline:isHyaline
                         })
                         .execute();
         assert(response.status == 200, "error response status");

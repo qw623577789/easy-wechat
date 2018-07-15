@@ -4,7 +4,7 @@ module.exports = class extends Base{
     constructor(logger, config = undefined) {
         super(logger, config);
     }
-    
+     
     async get() {
         let accessToken = await this.config.context.platform.accessToken();
         let response = await this.request.get

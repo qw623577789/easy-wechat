@@ -1,18 +1,19 @@
 {
   "name": "easy-wechat",
-  "version": "1.0.8",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "assert": "^1.4.1",
     "crypto": "0.0.3",
     "dateformat": "^2.2.0",
+    "express": "^4.16.3",
     "form-data": "^2.2.0",
     "fs": "0.0.1-security",
     "fs-extra": "^4.0.2",
-    "semantic-schema": "^0.1.13",
+    "semantic-schema": "^0.3.1",
     "should": "^13.2.1",
-    "skip-request": "0.0.4",
+    "skip-request": "0.0.6",
     "uuid": "^3.1.0",
     "xml": "^1.0.1",
     "xml2js-parser": "^1.1.1"

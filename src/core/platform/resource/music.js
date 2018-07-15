@@ -1,5 +1,5 @@
 module.exports = class MusicResource{
-    constructor(thumbMediaId, title = undefined, description = undefined, musicUrl = undefined, hqMusicUrl = undefined){
+    constructor({thumbMediaId, title = undefined, description = undefined, musicUrl = undefined, hqMusicUrl = undefined}){
         this._title =  title;
         this._description =  description;
         this._musicUrl =  musicUrl;
