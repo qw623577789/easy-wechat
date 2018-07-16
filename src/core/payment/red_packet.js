@@ -28,7 +28,7 @@ module.exports = class extends Base{
             remark: remark
         }
         
-        if(money > 200 || money < 1){
+        if(money > 20000 || money < 100){
             if (sceneId == undefined) throw new Error('sceneId is needed when money > 200 or money < 1');
             requestJson.scene_id = sceneId;
         }
@@ -98,7 +98,7 @@ module.exports = class extends Base{
             remark: remark
         }
         
-        if(money > 200 || money < 1){
+        if(money > 20000 || money < 100){
             if (sceneId == undefined) throw new Error('sceneId is needed when money > 200 or money < 1');
             requestJson.scene_id = sceneId;
         }
