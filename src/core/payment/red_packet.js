@@ -11,7 +11,7 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async normalSend({orderId, senderName, receiverOpenId, money, wishing, activityName, remark, sceneId = undefined,  riskInfo = undefined, consumeMchId = undefined, signType = "MD5"}){
+    async normalSend({orderId, senderName, receiverOpenId, money, wishing, activityName, remark, spbillCreateIp = '127.0.0.1', sceneId = undefined,  riskInfo = undefined, consumeMchId = undefined, signType = "MD5"}){
         let nonceStr = uuid().replace(/-/g, '');
         let requestJson = {
             wxappid:  this.config.payment.appId,
@@ -28,8 +28,8 @@ module.exports = class extends Base{
             remark: remark
         }
         
-        if(amountPrice > 200 || amountPrice < 1){
-            if (sceneId == undefined) throw new Error('sceneId is needed when amountPrice > 200 or amountPrice < 1');
+        if(money > 200 || money < 1){
+            if (sceneId == undefined) throw new Error('sceneId is needed when money > 200 or money < 1');
             requestJson.scene_id = sceneId;
         }
 
@@ -80,7 +80,7 @@ module.exports = class extends Base{
         return output;
     }
 
-    async fissionSend({orderId, senderName, firstReceiverOpenId, money, amount, type = 'ALL_RAND', wishing, activityName, remark, sceneId = undefined,  riskInfo = undefined, consumeMchId = undefined, signType = "MD5"}){
+    async fissionSend({orderId, senderName, firstReceiverOpenId, money, amount, type = 'ALL_RAND', wishing, activityName, remark, spbillCreateIp = '127.0.0.1', sceneId = undefined,  riskInfo = undefined, consumeMchId = undefined, signType = "MD5"}){
         let nonceStr = uuid().replace(/-/g, '');
         let requestJson = {
             wxappid:  this.config.payment.appId,
@@ -98,8 +98,8 @@ module.exports = class extends Base{
             remark: remark
         }
         
-        if(amountPrice > 200 || amountPrice < 1){
-            if (sceneId == undefined) throw new Error('sceneId is needed when amountPrice > 200 or amountPrice < 1');
+        if(money > 200 || money < 1){
+            if (sceneId == undefined) throw new Error('sceneId is needed when money > 200 or money < 1');
             requestJson.scene_id = sceneId;
         }
 

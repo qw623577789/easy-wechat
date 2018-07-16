@@ -6,7 +6,7 @@ const info = {
 };
 
 const request = object().properties({
-    orderId: string().pattern(/[A-Za-z0-9]{0,32}/).desc('商户订单号'), 
+    orderId: string().pattern(/[A-Za-z0-9]{0,28}/).desc('商户订单号'), 
     senderName: string().desc('红包发送者名称'), 
     firstReceiverOpenId: string().desc('接受红包的种子用户openId '), 
     money: integer().min(0).desc('金额(单位:分)'), 
