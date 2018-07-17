@@ -11,13 +11,16 @@ module.exports = class extends Base{
                         .url(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${this.config.platform.appId}&secret=${this.config.platform.secret}&code=${code}&grant_type=authorization_code`)
                         .execute();
         response = this.commonResponseJsonParse(response);
-        return {
+        let output = {
             accessToken: response.access_token,
             expiresIn: response.expires_in,
             refreshToken: response.refresh_token,
             openId: response.openid,
             scope: response.scope,
         }
+
+        if (response.unionid != undefined) output.unionId = response.unionid;
+        return output;
     }
 
     async refresh(refreshToken) {
@@ -25,13 +28,16 @@ module.exports = class extends Base{
                         .url(`https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=${this.config.platform.appId}&refresh_token=${refreshToken}&grant_type=refresh_token`)
                         .execute();
         response = this.commonResponseJsonParse(response);
-        return {
+        let output = {
             accessToken: response.access_token,
             expiresIn: response.expires_in,
             refreshToken: response.refresh_token,
             openId: response.openid,
             scope: response.scope,
         }
+
+        if (response.unionid != undefined) output.unionId = response.unionid;
+        return output;
     }
 
     async check({accessToken, openId}) {
