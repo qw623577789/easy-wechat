@@ -89,6 +89,9 @@ module.exports = class {
         let CSMessage = require('./src/core/wx_app/msg/cs.js');
         let csMessage = new CSMessage(this.logger, this.config);
 
+        let CommonMessage = require('./src/core/wx_app/msg/common.js');
+        let commonMessage = new CommonMessage(this.logger, this.config);
+
         let QrCode = require('./src/core/wx_app/qr_code');
         let qrCode = new QrCode(this.logger, this.config);
 
@@ -101,6 +104,7 @@ module.exports = class {
         return {
             user: user,
             msg: {
+                common: commonMessage,
                 template: templateMessage,
                 cs: csMessage,
             },
