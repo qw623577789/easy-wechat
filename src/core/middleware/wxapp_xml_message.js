@@ -15,7 +15,7 @@ module.exports = class extends Base {
 
     async handle(request, response) {
         try {
-            let {msg_signature: rawSignature, rawTimestamp, rawNonce} = request.query;
+            let {msg_signature: rawSignature, timestamp: rawTimestamp, nonce: rawNonce} = request.query;
 
             request.rawBody = '';
             request.setEncoding('utf8');
@@ -48,7 +48,7 @@ module.exports = class extends Base {
     _signatureCheck(encryptText, signature, timestamp, nonce) {
         let msgSignature = [this.config.wxApp.msgPush.token, timestamp, nonce, encryptText].sort().join('');
         let sha1 = crypto.createHash('sha1');
-        if (sha1.update(msgSignature).digest('hex') === signature) {
+        if (sha1.update(msgSignature).digest('hex') !== signature) {
             throw new Error(`invaild signature: ${msgSignature}`)
         }
     }
