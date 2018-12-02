@@ -17,7 +17,9 @@ const es = new Es({
         appId: 'xxxxxxxxxx',
         mchId: 'xxxxxxxxx',
         key: 'xxxxxxxxxxxx',
-        notifyUrl: 'xxxxxxxxxxxxxxxxxxxx'
+        notifyUrl: 'xxxxxxxxxxxxxxxxxxxx',
+        pfxFile: `xxx/apiclient_cert.p12`,
+        refundNotifyUrl: 'xxxxxxxxxx',
     }
 });
 
@@ -48,6 +50,52 @@ module.exports = (router) => {
         response.json(info);
     });
 
+    router.get('/payment.refund',async (request, response) => {
+        let info = await es.payment.order.refund({
+            id: Date.now() + "", 
+            orderId: "59a9443c5fae4af7b78ba844e4d08c4c", 
+            orderFee: 1, 
+            refundFee: 1,
+            reason: "测试"
+        });
+        response.json(info);
+    });
+
+    router.get('/payment.redPacket.normalSend',async (request, response) => {
+        let info = await es.payment.redPacket.normalSend({
+            orderId: 'xxxxxxxxxxxxxxxxx',
+            receiverOpenId: openId,
+            senderName: "xxxxx",
+            money,
+            wishing:　"恭喜发财,大吉大利",
+            activityName: "送红包",
+            spbillCreateIp: "xxx.xxx.xxx.xxx",
+            sceneId: 'PRODUCT_2'
+        })
+        response.json(info);
+    });
+
+    router.get('/payment.redPacket.fissionSend',async (request, response) => {
+        let info = await es.payment.redPacket.fissionSend({
+            orderId: 'xxxxxxxxxxxxxxxxx',
+            firstReceiverOpenId: openId,
+            senderName: "xxxxx",
+            money,
+            amount: 10,
+            wishing:　"恭喜发财,大吉大利",
+            activityName: "送红包",
+            spbillCreateIp: "xxx.xxx.xxx.xxx",
+            sceneId: 'PRODUCT_2'
+        })
+        response.json(info);
+    });
+
+    router.get('/payment.redPacket.infoGet',async (request, response) => {
+        let info = await es.payment.redPacket.infoGet({
+            orderId: 'xxxxxxxxxxxxxxxxx'
+        })
+        response.json(info);
+    });
     //小程序～～～～～～～～～～～～
     //user
     router.get('/wxapp.user.infoDecrypt',async (request, response) => {
@@ -260,4 +308,7 @@ module.exports = (router) => {
         console.log(request.body);
     }))
 
+    router.use('/refund.notify', es.middleware.refund((request) => {
+        console.log(request.body);
+    }))
 }

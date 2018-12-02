@@ -30,7 +30,10 @@ module.exports = class extends Base {
             let data = xml2js(incoming, { explicitArray : false, ignoreAttrs : true }).xml;
             request.body = {};
             Object.keys(data).forEach(key => {
-                request.body[key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())] = data[key];
+                request.body[
+                    key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())
+                        .replace(/\_[a-z]{1}/g, (c) => c.substr(1).toUpperCase())
+                ] = data[key];
             });
 
             if (this._replier != undefined) {

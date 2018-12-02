@@ -1,7 +1,4 @@
-const dateFormat = require('dateformat');
-const constant = require('../../constant');
 const uuid = require('uuid/v4');
-const crypto = require('crypto');
 const Xml = require('xml');
 const CommonPayment = require('./common.js');
 const Base = require('../base.js');
