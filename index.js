@@ -25,6 +25,7 @@ module.exports = class {
                 mchId: string(),
                 key: string(),
                 notifyUrl: string(),
+                refundNotifyUrl: string(),
                 pfxFile: string().desc('微信商户平台证书')
             }).required('appId', 'mchId', 'key', 'notifyUrl')
         })
@@ -117,6 +118,9 @@ module.exports = class {
         let Payment = require('./src/core/middleware/payment');
         let payment = new Payment(this.logger, this.config);
 
+        let Refund = require('./src/core/middleware/refund');
+        let refund = new Refund(this.logger, this.config);
+
         let PlatformMessage = require('./src/core/middleware/platform_message');
         let platformMessage = new PlatformMessage(this.logger, this.config);
 
@@ -134,6 +138,10 @@ module.exports = class {
             payment: (replier = undefined) => {
                 payment.replier = replier;
                 return (request, response) => payment.handle(request, response);
+            },
+            refund: (replier = undefined) => {
+                refund.replier = replier;
+                return (request, response) => refund.handle(request, response);
             },
             wxAppJsonMessage: (replier = undefined) => {
                 wxAppJsonMessage.replier = replier;

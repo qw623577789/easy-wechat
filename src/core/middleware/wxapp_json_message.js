@@ -63,7 +63,10 @@ module.exports = class extends Base {
         let data = JSON.parse(lenNetOrderCorpid.slice(4, msgLen + 4).toString());
         let msg = {};
         Object.keys(data).forEach(key => {
-            msg[key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())] = data[key];
+            msg[
+                key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())
+                    .replace(/\_[a-z]{1}/g, (c) => c.substr(1).toUpperCase())
+            ] = data[key];
         });
 
         return {

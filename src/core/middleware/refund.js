@@ -1,9 +1,6 @@
 const xml2js = require('xml2js-parser').parseStringSync;
-const Xml = require('xml');
 const crypto = require('crypto');
-const constant = require("../../constant");
 const Base = require('../base.js');
-const PaymentCommon = require('../payment/common');
 
 module.exports = class extends Base {
     constructor(logger, config = undefined) {
@@ -23,27 +20,10 @@ module.exports = class extends Base {
             let incoming = await (new Promise( (resolve, reject)=>{
                 request.on('end', () => {resolve(request.rawBody);});
             }));
-            this.logger.package(`wechatPaymentCallback:${incoming}`);
+            this.logger.package(`wechatRefundCallback:${incoming}`);
 
             let sourceJson = xml2js(incoming, { explicitArray : false, ignoreAttrs : true }).xml;
-    
-            //验签
-            let paymentCommon = new PaymentCommon(this.logger, this.config);
-
-            let requestSign = paymentCommon.signGet({data: sourceJson, signType: typeof sourceJson.sign_type === "undefined"?constant.Payment.EncrypType.MD5:sourceJson.sign_type});
-            if(requestSign != sourceJson.sign){
-                response.send('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>');
-                return ;
-            }
-
-            request.body = {};
-            Object.keys(sourceJson).forEach(key => {
-                request.body[
-                    key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())
-                        .replace(/\_[a-z]{1}/g, (c) => c.substr(1).toUpperCase())
-                ] = sourceJson[key];
-            });
-
+            request.body = Object.assign(await this._decryptMsg(sourceJson.req_info), {appId: sourceJson.appid, mchId: sourceJson.mch_id});
             if (this._replier != undefined) await this._replier(request);
 
             //向微信回应success
@@ -52,6 +32,24 @@ module.exports = class extends Base {
             this.logger.error(`err in responseToWechat:${error.stack}`);
             response.send('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[程序出错]]></return_msg></xml>');
         }
+    }
+
+    async _decryptMsg(encryptText) {
+        let key = crypto.createHash('md5').update(this.config.payment.key).digest('hex').toLowerCase();
+        let aesDecipher = crypto.createDecipheriv('aes-256-ecb', key, "");
+        aesDecipher.setAutoPadding(true);
+        let aesDecipherChunks = aesDecipher.update(encryptText, 'base64', 'utf8');
+        aesDecipherChunks += aesDecipher.final('utf8');
+        let data = xml2js(aesDecipherChunks, { explicitArray : false, ignoreAttrs : true }).root;
+        let msg = {};
+        Object.keys(data).forEach(key => {
+            msg[
+                key.replace(/^[A-Z]{1}/, (c) => c.toLowerCase())
+                    .replace(/\_[a-z]{1}/g, (c) => c.substr(1).toUpperCase())
+            ] = data[key];
+        });
+
+        return msg;
     }
 
 }
