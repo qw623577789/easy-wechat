@@ -13,7 +13,7 @@ const request = oneOf(
         refundFee: integer().min(1).desc('退款金额'), 
         feeType: string().desc('退款货币种类'), 
         signType: string().enum('SHA256', 'MD5').desc('签名类型'), 
-        reason: string(80).desc('退款原因'),
+        reason: string().maxLength(80).desc('退款原因'),
         refundAccount: string().desc('退款资金来源')
     })
         .required('id', 'wechatOrderId', 'orderFee', 'refundFee'),
@@ -24,7 +24,7 @@ const request = oneOf(
         refundFee: integer().min(1).desc('退款金额'), 
         feeType: string().desc('退款货币种类'), 
         signType: string().enum('SHA256', 'MD5').desc('签名类型'), 
-        reason: string(80).desc('退款原因'),
+        reason: string().maxLength(80).desc('退款原因'),
         refundAccount: string().desc('退款资金来源')
     })
         .required('id', 'orderId', 'orderFee', 'refundFee')
@@ -58,6 +58,6 @@ const response = object().properties({
         id: string().desc('代金券ID'),
         fee: integer().min(0).desc('代金券金额'),
     })
-}).required("id", "sign", "resultCode", "errCode", "errCodeDes", "orderId", "wechatOrderId", "nonceStr", "mchId", "wechatRefundId", "appId", "orderFee", "refundFee", "cashFee")
+}).required("id", "sign", "resultCode", "orderId", "wechatOrderId", "nonceStr", "mchId", "wechatRefundId", "appId", "orderFee", "refundFee", "cashFee")
 
 module.exports = {info, request, response};
