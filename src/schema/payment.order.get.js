@@ -56,7 +56,7 @@ const response = oneOf(
         resultCode: string().enum('SUCCESS', 'FAIL').desc('业务结果'),
         tradeState: string().enum('REFUND', 'NOTPAY', 'CLOSED', 'REVOKED', 'USERPAYING', 'PAYERROR').desc('交易类型'),
         attach: string().desc('附加数据'),  
-    }).required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'orderId', 'tradeState')
+    }).required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeState')
 )
 
 module.exports = {info, request, response};
