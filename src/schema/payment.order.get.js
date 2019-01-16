@@ -54,7 +54,6 @@ const response = oneOf(
         sign: string().desc('签名值'),
         openId: string().desc('用户微信号'),
         resultCode: string().enum('SUCCESS', 'FAIL').desc('业务结果'),
-        orderId: string().pattern(/[A-Za-z0-9\_\-\|\*]{0,32}/).desc('商户订单号'), 
         tradeState: string().enum('REFUND', 'NOTPAY', 'CLOSED', 'REVOKED', 'USERPAYING', 'PAYERROR').desc('交易类型'),
         attach: string().desc('附加数据'),  
     }).required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'orderId', 'tradeState')

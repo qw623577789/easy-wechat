@@ -1,4 +1,4 @@
-const Es = require('easy-wechat');
+const Es = require('../../');
 const es = new Es({
     platform: {
         appId: 'xxxx',
