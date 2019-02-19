@@ -228,7 +228,7 @@ module.exports = (router) => {
     });
 
     router.get('/platform.msg.template.push',async (request, response) => {
-        let info = await es.platform.templateMsg.push({
+        let info = await es.platform.templateMessage.push({
             openId: 'oga5Q0fEb_X7_NFu5EpcvkMp3Qzo', 
             templateId: 'TBr4NsHapnwLL_OjfJeWL1AJvUTY5qhVsLFQyaNwG6U', 
             modelData: {
