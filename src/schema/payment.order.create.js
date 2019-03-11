@@ -22,7 +22,8 @@ const request = object().properties({
     signType: string().enum('SHA256', 'MD5').desc('签名类型'), 
     goodsTag: string().desc('订单优惠标记'), 
     limitPay: string().desc('指定支付方式'), 
-    sceneInfo: string().desc('场景信息')
+    sceneInfo: string().desc('场景信息'),
+    notifyUrl: string().desc('支付回调地址，若不传，默认使用配置文件里的')
 })
     .if.properties({tradeType: 'JSAPI'})
     .then.required('orderId', 'description', 'detail', 'price', 'tradeType', 'openId')

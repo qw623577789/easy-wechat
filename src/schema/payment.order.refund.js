@@ -14,7 +14,8 @@ const request = oneOf(
         feeType: string().desc('退款货币种类'), 
         signType: string().enum('SHA256', 'MD5').desc('签名类型'), 
         reason: string().maxLength(80).desc('退款原因'),
-        refundAccount: string().desc('退款资金来源')
+        refundAccount: string().desc('退款资金来源'),
+        refundNotifyUrl: string().desc('退款回调地址，若不传，默认使用配置文件里的')
     })
         .required('id', 'wechatOrderId', 'orderFee', 'refundFee'),
     object().properties({
@@ -25,7 +26,8 @@ const request = oneOf(
         feeType: string().desc('退款货币种类'), 
         signType: string().enum('SHA256', 'MD5').desc('签名类型'), 
         reason: string().maxLength(80).desc('退款原因'),
-        refundAccount: string().desc('退款资金来源')
+        refundAccount: string().desc('退款资金来源'),
+        refundNotifyUrl: string().desc('退款回调地址，若不传，默认使用配置文件里的')
     })
         .required('id', 'orderId', 'orderFee', 'refundFee')
 )     

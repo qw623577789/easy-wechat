@@ -10,7 +10,7 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async create({orderId, description, detail, price, tradeType, openId = undefined, spbillCreateIp = '127.0.0.1', attach =undefined,  startTime = undefined, endTime = undefined, productId = undefined, feeType = 'CNY', deviceInfo = undefined, signType = "MD5", goodsTag = undefined, limitPay = undefined, sceneInfo = undefined}){
+    async create({orderId, description, detail, price, tradeType, openId = undefined, spbillCreateIp = '127.0.0.1', attach =undefined,  startTime = undefined, endTime = undefined, productId = undefined, feeType = 'CNY', deviceInfo = undefined, signType = "MD5", goodsTag = undefined, limitPay = undefined, sceneInfo = undefined, notifyUrl = undefined}){
         let nonceStr = uuid().replace(/-/g, '');
         let notifyUrl = this.config.payment.notifyUrl;
         let requestJson = {
@@ -20,7 +20,7 @@ module.exports = class extends Base{
             mch_id: this.config.payment.mchId,
             detail:{_cdata:detail},
             nonce_str: nonceStr,
-            notify_url: this.config.payment.notifyUrl,
+            notify_url: notifyUrl || this.config.payment.notifyUrl,
             out_trade_no: orderId,
             spbill_create_ip:spbillCreateIp,
             total_fee: price,
@@ -178,7 +178,7 @@ module.exports = class extends Base{
 
     }
 
-    async refund({id, wechatOrderId = undefined, orderId = undefined, orderFee, refundFee, feeType = 'CNY', signType = "MD5", reason = undefined, refundAccount = undefined}) {
+    async refund({id, wechatOrderId = undefined, orderId = undefined, orderFee, refundFee, feeType = 'CNY', signType = "MD5", reason = undefined, refundAccount = undefined, refundNotifyUrl = undefined}) {
         let nonceStr = uuid().replace(/-/g, '');
         let requestJson = {
             appid:  this.config.payment.appId,
@@ -199,7 +199,13 @@ module.exports = class extends Base{
         }
         if (reason != undefined) requestJson['refund_desc'] = reason;
         if (refundAccount != undefined) requestJson['refund_account'] = refundAccount;
-        if (this.config.payment.refundNotifyUrl != undefined) requestJson['notify_url'] = this.config.payment.refundNotifyUrl;
+        
+        if (refundNotifyUrl !== undefined) {
+            requestJson['notify_url'] = refundNotifyUrl;
+        }
+        else if (this.config.payment.refundNotifyUrl != undefined) {
+            requestJson['notify_url'] = this.config.payment.refundNotifyUrl;
+        }
 
         let common = new CommonPayment(this.logger, this.config);
         requestJson.sign = common.signGet({data: requestJson, signType});
