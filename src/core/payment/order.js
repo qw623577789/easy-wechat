@@ -12,7 +12,6 @@ module.exports = class extends Base{
 
     async create({orderId, description, detail, price, tradeType, openId = undefined, spbillCreateIp = '127.0.0.1', attach =undefined,  startTime = undefined, endTime = undefined, productId = undefined, feeType = 'CNY', deviceInfo = undefined, signType = "MD5", goodsTag = undefined, limitPay = undefined, sceneInfo = undefined, notifyUrl = undefined}){
         let nonceStr = uuid().replace(/-/g, '');
-        let notifyUrl = this.config.payment.notifyUrl;
         let requestJson = {
             appid:  this.config.payment.appId,
             attach:  attach,
