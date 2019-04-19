@@ -1,4 +1,4 @@
-const {array, object, string, integer, oneOf, boolean} = require('semantic-schema').schema;
+const {array, object, string, integer, oneOf, boolean} = require('@qtk/schema').schema;
 
 const info = {
     title: "支付-查询订单",
@@ -9,11 +9,11 @@ const request = oneOf(
     object().properties({
         wechatOrderId: string().desc('微信订单号'),
         signType: string().enum('SHA256', 'MD5').desc('签名类型')
-    }).required('wechatOrderId'),
+    }).require('wechatOrderId'),
     object().properties({
         orderId: string().pattern(/[A-Za-z0-9\_\-\|\*]{0,32}/).desc('商户订单号'),
         signType: string().enum('SHA256', 'MD5').desc('签名类型')
-    }).required('orderId'),
+    }).require('orderId'),
 )
 
 const response = oneOf(
@@ -46,7 +46,7 @@ const response = oneOf(
         attach: string().desc('附加数据'),  
         isSubscribe: boolean().desc('是否关注公众账号'),
         deviceInfo: string().desc('设备号')
-    }).required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'orderId', 'tradeState', 'openId', 'tradeType', 'bankType', 'totalFee', 'cashFee', 'wechatOrderId', 'timeEnd', 'tradeStateDesc'),
+    }).require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'orderId', 'tradeState', 'openId', 'tradeType', 'bankType', 'totalFee', 'cashFee', 'wechatOrderId', 'timeEnd', 'tradeStateDesc'),
     object().properties({
         appId: string().desc('调用接口提交的公众账号ID'),
         mchId: string().desc('调用接口提交的商户号'),
@@ -56,7 +56,7 @@ const response = oneOf(
         resultCode: string().enum('SUCCESS', 'FAIL').desc('业务结果'),
         tradeState: string().enum('REFUND', 'NOTPAY', 'CLOSED', 'REVOKED', 'USERPAYING', 'PAYERROR').desc('交易类型'),
         attach: string().desc('附加数据'),  
-    }).required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeState')
+    }).require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeState')
 )
 
 module.exports = {info, request, response};

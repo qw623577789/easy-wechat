@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-通过后端accessToken获取用户信息",
@@ -31,6 +31,6 @@ const response =　oneOf(
         subscribeScene: string().enum('ADD_SCENE_SEARCH', 'ADD_SCENE_ACCOUNT_MIGRATION','ADD_SCENE_PROFILE_CARD','ADD_SCENE_QR_CODE','ADD_SCENEPROFILE LINK','ADD_SCENE_PROFILE_ITEM','ADD_SCENE_PAID','ADD_SCENE_OTHERS').desc('用户关注的渠道来源'),
         qrScene: integer().desc('二维码扫码场景'),
         qrSceneStr: string().desc('二维码扫码场景描述')
-    }).required('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl', 'subscribe', 'subscribeTime', 'subscribeScene')
+    }).require('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl', 'subscribe', 'subscribeTime', 'subscribeScene')
 )
 module.exports = {info, request, response};

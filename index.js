@@ -1,4 +1,4 @@
-const {validator: Validator, schema: {string, object, integer, empty, array, boolean}} = require('semantic-schema');
+const {validator: Validator, schema: {string, object, integer, empty, array, boolean}} = require('@qtk/schema');
 const Logger = require('./src/lib/logger');
 
 
@@ -11,7 +11,7 @@ module.exports = class {
                 secret: string(),
                 token: string(),
                 aesKey: string()
-            }).required("appId", "secret"),
+            }).require("appId", "secret"),
             wxApp: object().desc("微信小程序配置").properties({
                 appId: string(),
                 secret: string(),
@@ -19,7 +19,7 @@ module.exports = class {
                     token: string(),
                     encodingAESKey: string()
                 })
-            }).requiredAll(),
+            }).requireAll(),
             payment: object().desc("微信支付支付").properties({
                 appId: string(),
                 mchId: string(),
@@ -27,7 +27,7 @@ module.exports = class {
                 notifyUrl: string(),
                 refundNotifyUrl: string(),
                 pfxFile: string().desc('微信商户平台证书')
-            }).required('appId', 'mchId', 'key', 'notifyUrl')
+            }).require('appId', 'mchId', 'key', 'notifyUrl')
         })
 
         let validator = new Validator(schema);

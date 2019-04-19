@@ -1,4 +1,4 @@
-const {array, object, string, integer} = require('semantic-schema').schema;
+const {array, object, string, integer} = require('@qtk/schema').schema;
 
 const info = {
     title: "支付-获取签名",

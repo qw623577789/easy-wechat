@@ -1,4 +1,4 @@
-const {array, object, string, integer} = require('semantic-schema').schema;
+const {array, object, string, integer} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-生成前端jsApi初始化参数",

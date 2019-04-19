@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-发送客服消息－图文",
@@ -11,7 +11,7 @@ const request = object().properties({
     description: string().desc('图文链接消息'),
     url: string().desc('跳转的链接'),
     thumbUrl: string().desc('图片url')
-}).required('openId', 'title', 'description', 'url', 'thumbUrl')
+}).require('openId', 'title', 'description', 'url', 'thumbUrl')
 
 const response =　empty()
 

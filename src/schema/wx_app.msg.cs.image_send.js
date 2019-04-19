@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-发送客服消息－图片",
@@ -8,7 +8,7 @@ const info = {
 const request = object().properties({
     openId: string().desc('用户微信openId'),
     mediaId: string().desc('媒体id')
-}).required('openId', 'mediaId')
+}).require('openId', 'mediaId')
 
 const response =　empty()
 

@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-通过前端显式授权获得的accessToken获取用户信息",
@@ -20,6 +20,6 @@ const response =　object().properties({
     avatarUrl: string().desc('头像url'),
     privilege: array().item(string()).desc('用户特权信息'),
     unionId: string().desc('unionId')
-}).required('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl')
+}).require('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl')
 
 module.exports = {info, request, response};

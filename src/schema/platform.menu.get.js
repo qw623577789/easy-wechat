@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-获取菜单",
@@ -148,7 +148,7 @@ const response = object().properties({
             )
         ),
         menuid: string().desc('菜单id')
-    }).required('button'),
+    }).require('button'),
     conditionalmenu: array().item({
         button: array().item(
             oneOf(
@@ -232,7 +232,7 @@ const response = object().properties({
         }),
         menuid: string().desc('菜单id') 
     })
-}).required('menu');
+}).require('menu');
 
 
 
