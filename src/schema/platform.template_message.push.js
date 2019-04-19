@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-模板消息推送",
@@ -15,7 +15,7 @@ const request = object().properties({
         pagePath: string().desc('所需跳转到小程序的具体页面路径')
     }).desc('跳小程序所需数据'),
     color: string().desc('模板内容字体颜色')
-}).required('openId', 'templateId', 'modelData')
+}).require('openId', 'templateId', 'modelData')
 
 const response =　empty()
 

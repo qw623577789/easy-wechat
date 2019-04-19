@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-模板消息推送",
@@ -13,7 +13,7 @@ const request = object().properties({
     emphasisKeyword: string().desc('放大的关键词'),
     wxAppPagePath: string().desc('模板跳转链接'),
     color: string().desc('模板内容字体颜色')
-}).required('openId', 'templateId', 'modelData', 'formId')
+}).require('openId', 'templateId', 'modelData', 'formId')
 
 const response =　empty()
 

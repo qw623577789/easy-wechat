@@ -1,4 +1,4 @@
-const {array, object, string, integer, oneOf, boolean} = require('semantic-schema').schema;
+const {array, object, string, integer, oneOf, boolean} = require('@qtk/schema').schema;
 
 const info = {
     title: "支付-退款",
@@ -17,7 +17,7 @@ const request = oneOf(
         refundAccount: string().desc('退款资金来源'),
         refundNotifyUrl: string().desc('退款回调地址，若不传，默认使用配置文件里的')
     })
-        .required('id', 'wechatOrderId', 'orderFee', 'refundFee'),
+        .require('id', 'wechatOrderId', 'orderFee', 'refundFee'),
     object().properties({
         id: string().pattern(/[A-Za-z0-9\_\-\|\*|\@]{0,64}/).desc('退款订单号'),
         orderId: string().pattern(/[A-Za-z0-9\_\-\|\*|\@]{0,32}/).desc('商户订单号'),
@@ -29,7 +29,7 @@ const request = oneOf(
         refundAccount: string().desc('退款资金来源'),
         refundNotifyUrl: string().desc('退款回调地址，若不传，默认使用配置文件里的')
     })
-        .required('id', 'orderId', 'orderFee', 'refundFee')
+        .require('id', 'orderId', 'orderFee', 'refundFee')
 )     
 
 const response = object().properties({
@@ -60,6 +60,6 @@ const response = object().properties({
         id: string().desc('代金券ID'),
         fee: integer().min(0).desc('代金券金额'),
     })
-}).required("id", "sign", "resultCode", "orderId", "wechatOrderId", "nonceStr", "mchId", "wechatRefundId", "appId", "orderFee", "refundFee", "cashFee")
+}).require("id", "sign", "resultCode", "orderId", "wechatOrderId", "nonceStr", "mchId", "wechatRefundId", "appId", "orderFee", "refundFee", "cashFee")
 
 module.exports = {info, request, response};

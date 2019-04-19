@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-用户信息解密",
@@ -9,7 +9,7 @@ const request = object().properties({
     encryptedData: string().desc('原始数据字符串'),
     iv: string().desc('加密算法的初始向量'),
     sessionKey: string().desc('登录流程获取会话密钥'),
-}).required('encryptedData', 'iv', 'sessionKey')
+}).require('encryptedData', 'iv', 'sessionKey')
 
 const response =　object().properties({
     openId: string().desc('用户微信id'),
@@ -24,7 +24,7 @@ const response =　object().properties({
         timestamp: integer().desc('时间戳')
     },
     unionId: string().desc('unionId')
-}).required('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl', 'watermark')
+}).require('openId', 'nickName', 'gender', 'country', 'province', 'city', 'avatarUrl', 'watermark')
 
 
 module.exports = {info, request, response};

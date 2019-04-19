@@ -1,4 +1,4 @@
-const {array, object, string, integer} = require('semantic-schema').schema;
+const {array, object, string, integer} = require('@qtk/schema').schema;
 
 const info = {
     title: "支付-创建订单",
@@ -26,11 +26,11 @@ const request = object().properties({
     notifyUrl: string().desc('支付回调地址，若不传，默认使用配置文件里的')
 })
     .if.properties({tradeType: 'JSAPI'})
-    .then.required('orderId', 'description', 'detail', 'price', 'tradeType', 'openId')
+    .then.require('orderId', 'description', 'detail', 'price', 'tradeType', 'openId')
     .elseIf.properties({tradeType: 'NATIVE'})
-    .then.required('orderId', 'description', 'detail', 'price', 'tradeType', 'productId')
+    .then.require('orderId', 'description', 'detail', 'price', 'tradeType', 'productId')
     .else
-    .required('orderId', 'description', 'detail', 'price', 'tradeType')
+    .require('orderId', 'description', 'detail', 'price', 'tradeType')
     .endIf
 
 const response = object().properties({
@@ -45,8 +45,8 @@ const response = object().properties({
     deviceInfo: string().desc('设备号'),
 })
     .if.properties({tradeType: 'NATIVE'})
-    .then.required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId', 'codeUrl')
+    .then.require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId', 'codeUrl')
     .else
-    .required('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId')
+    .require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId')
     .endIf
 module.exports = {info, request, response};

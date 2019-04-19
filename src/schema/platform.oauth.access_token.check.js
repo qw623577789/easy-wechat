@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf, boolean} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf, boolean} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-检查前端用户授权ACCESS_TOKEN是否失效",

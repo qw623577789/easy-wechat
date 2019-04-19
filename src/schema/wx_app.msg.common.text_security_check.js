@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf, boolean} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf, boolean} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-消息合法性检查－文本",

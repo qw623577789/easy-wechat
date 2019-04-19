@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf} = require('@qtk/schema').schema;
 
 const info = {
     title: "公众号-前端用户授权ACCESS_TOKEN刷新",
@@ -14,6 +14,6 @@ const response =　object().properties({
     openId: string().desc('用户微信id'),
     scope: string().desc('用户授权的作用域'),
     unionId: string().desc('用户微信unionId')
-}).required('accessToken', 'expiresIn', 'refreshToken', 'openId', 'scope')
+}).require('accessToken', 'expiresIn', 'refreshToken', 'openId', 'scope')
 
 module.exports = {info, request, response};

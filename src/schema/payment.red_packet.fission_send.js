@@ -1,4 +1,4 @@
-const {array, object, string, integer} = require('semantic-schema').schema;
+const {array, object, string, integer} = require('@qtk/schema').schema;
 
 const info = {
     title: "支付-发放裂变红包",
@@ -19,7 +19,7 @@ const request = object().properties({
     consumeMchId: string().desc('资金授权商户号'),
     type: string().desc('红包金额分配方式').enum('ALL_RAND'),
     signType: string().enum('SHA256', 'MD5').desc('签名类型'),
-}).required('orderId', 'senderName', 'firstReceiverOpenId', 'money', 'amount', 'wishing')
+}).require('orderId', 'senderName', 'firstReceiverOpenId', 'money', 'amount', 'wishing')
 
 const response = object().properties({
     orderId: string().desc('商户订单号'),
@@ -34,8 +34,8 @@ const response = object().properties({
     sign: string().desc('签名')
 })
     .if.properties({resultCode: 'SUCCESS'})
-    .then.required('orderId', 'mchId', 'appId', 'firstReceiverOpenId', 'resultCode', 'money', 'redPacketId', 'sign')
+    .then.require('orderId', 'mchId', 'appId', 'firstReceiverOpenId', 'resultCode', 'money', 'redPacketId', 'sign')
     .else
-    .required('errCode', 'errCodeDes', 'sign', 'resultCode')
+    .require('errCode', 'errCodeDes', 'sign', 'resultCode')
     .endIf
 module.exports = {info, request, response};

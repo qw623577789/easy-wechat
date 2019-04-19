@@ -1,4 +1,4 @@
-const {array, object, string, integer, empty, oneOf, boolean} = require('semantic-schema').schema;
+const {array, object, string, integer, empty, oneOf, boolean} = require('@qtk/schema').schema;
 
 const info = {
     title: "小程序-获取小程序码A接口",
@@ -17,8 +17,8 @@ const request = object().properties({
     isHyaline: boolean().desc('是否需要透明底色')
 })
     .if.properties({autoColor: true})
-    .then.required('pagePath', 'autoColor', 'lineColor')
-    .else.required('pagePath')
+    .then.require('pagePath', 'autoColor', 'lineColor')
+    .else.require('pagePath')
 
 const response =　string();
 
