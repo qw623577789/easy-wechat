@@ -1,10 +1,10 @@
 {
   "name": "easy-wechat",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@qtk/schema": "0.0.3",
+    "@qtk/schema": "0.0.4",
     "assert": "^1.4.1",
     "crypto": "0.0.3",
     "dateformat": "^2.2.0",
@@ -13,7 +13,7 @@
     "fs": "0.0.1-security",
     "fs-extra": "^4.0.2",
     "should": "^13.2.1",
-    "skip-request": "0.0.6",
+    "skip-request": "0.1.1",
     "uuid": "^3.1.0",
     "xml": "^1.0.1",
     "xml2js-parser": "^1.1.1"
