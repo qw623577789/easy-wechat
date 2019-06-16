@@ -13,13 +13,13 @@ module.exports  = class Base {
 
         getRequest.execute = async () => {
             let response = await getRequest.submit();
-            this.logger.package(JSON.stringify(response.har));
+            this.logger.package(JSON.stringify(response.httpInfo));
             return response;
         };
 
         postRequest.execute = async () => {
             let response = await postRequest.submit();
-            this.logger.package(JSON.stringify(response.har));
+            this.logger.package(JSON.stringify(response.httpInfo));
             return response;
         };
 
