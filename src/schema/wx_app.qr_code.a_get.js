@@ -19,6 +19,7 @@ const request = object().properties({
     .if.properties({autoColor: true})
     .then.require('pagePath', 'autoColor', 'lineColor')
     .else.require('pagePath')
+    .endIf
 
 const response =　string();
 

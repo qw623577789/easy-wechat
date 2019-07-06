@@ -20,6 +20,7 @@ const request = object().properties({
     .if.properties({autoColor: true})
     .then.require('scene', 'pagePath', 'autoColor', 'lineColor')
     .else.require('scene', 'pagePath')
+    .endIf
 
 const response = string()
 
