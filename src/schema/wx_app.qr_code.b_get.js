@@ -17,7 +17,7 @@ const request = object().properties({
     },
     isHyaline: boolean().desc('是否需要透明底色')
 })
-    .if.properties({autoColor: true})
+    .if.properties({autoColor: false})
     .then.require('scene', 'pagePath', 'autoColor', 'lineColor')
     .else.require('scene', 'pagePath')
     .endIf
