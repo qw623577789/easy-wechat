@@ -6,7 +6,7 @@ const info = {
 };
 
 const request = object().properties({
-    scene: string().pattern(/[A-Za-z0-9\!\#\$\&\'\(\)\*\+\,\/\:\;\=\?\@\-\.\_\~]{0, 32}/).desc('场景'),
+    scene: string().pattern(/[A-Za-z0-9\!\#\$\&\'\(\)\*\+\,\/\:\;\=\?\@\-\.\_\~]{0,32}/).desc('场景'),
     pagePath: string().desc('已经发布的小程序存在的页面'),
     width: integer().desc('二维码的宽度'),
     autoColor: boolean().desc('自动配置线条颜色'),
