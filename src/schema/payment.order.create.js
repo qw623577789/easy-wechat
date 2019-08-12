@@ -10,7 +10,7 @@ const request = object().properties({
     description: string().desc('商品简单描述'), 
     detail: string().desc('商品详细描述'), 
     price: integer().min(0).desc('价格(单位:分)'), 
-    tradeType: string().enum('JSAPI', 'NATIVE', 'APP').desc('交易类型'), 
+    tradeType: string().enum('JSAPI', 'NATIVE', 'APP', 'MICROPAY', 'MWEB').desc('交易类型'), 
     openId: string().desc('用户微信号'), 
     spbillCreateIp: string().desc('终端IP'), 
     attach: string().desc('附加数据'),  
@@ -29,6 +29,8 @@ const request = object().properties({
     .then.require('orderId', 'description', 'detail', 'price', 'tradeType', 'openId')
     .elseIf.properties({tradeType: 'NATIVE'})
     .then.require('orderId', 'description', 'detail', 'price', 'tradeType', 'productId')
+    .elseIf.properties({tradeType: 'MWEB'})
+    .then.require('orderId', 'description', 'detail', 'price', 'tradeType', 'spbillCreateIp')
     .else
     .require('orderId', 'description', 'detail', 'price', 'tradeType')
     .endIf
@@ -39,7 +41,7 @@ const response = object().properties({
     nonceStr: string().desc('随机字符串'),
     sign: string().desc('签名值'),
     resultCode: string().enum('SUCCESS', 'FAIL').desc('业务结果'),
-    tradeType: string().enum('JSAPI', 'NATIVE', 'APP').desc('交易类型'),
+    tradeType: string().enum('JSAPI', 'NATIVE', 'APP', 'MICROPAY', 'MWEB').desc('交易类型'),
     prepayId: string().desc('预支付交易会话标识'),
     codeUrl: string().desc('二维码链接'),
     deviceInfo: string().desc('设备号'),
