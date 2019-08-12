@@ -5,7 +5,8 @@ module.exports = class {
                 JS:'JSAPI',
                 SCAN:'NATIVE',
                 APP:'APP',
-                MICROPAY:'MICROPAY'
+                MICROPAY:'MICROPAY',
+                MWEB: 'MWEB'
             },
             EncrypType: {
                 MD5:'MD5',
