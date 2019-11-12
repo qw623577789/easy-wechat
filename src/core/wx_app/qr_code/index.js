@@ -11,7 +11,7 @@ module.exports = class extends Base{
         let response = await this.request.post
                         .url(`https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${accessToken}`)
                         .json({
-                            scene, path: pagePath, width, auto_color: autoColor, line_color: lineColor, is_hyaline:isHyaline
+                            scene, page: pagePath, width, auto_color: autoColor, line_color: lineColor, is_hyaline:isHyaline
                         })
                         .execute();
 
