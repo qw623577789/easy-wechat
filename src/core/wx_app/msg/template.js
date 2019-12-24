@@ -24,4 +24,19 @@ module.exports = class extends Base{
         this.commonResponseJsonParse(response);
     }
 
+    async subscribeSend({ openId, templateId, modelData, wxAppPagePath = undefined }) {
+        let queryData = {
+            touser: openId,  
+            template_id: templateId,
+            page: wxAppPagePath,        
+            data: modelData,
+        }
+
+        let accessToken = await this.config.context.wxApp.accessToken();
+        let response = await this.request.post
+                        .url(`https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=${accessToken}`)
+                        .json(queryData)
+                        .execute();
+        this.commonResponseJsonParse(response);
+    }
 }
