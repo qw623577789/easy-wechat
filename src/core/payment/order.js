@@ -93,6 +93,8 @@ module.exports = class extends Base{
 
         if (response.code_url != undefined) output.codeUrl = response.code_url;
         if (response.device_info != undefined) output.deviceInfo = response.device_info;
+        if (response.mweb_url != undefined) output.mwebUrl = response.mweb_url;
+        
         return output;
     }
 
