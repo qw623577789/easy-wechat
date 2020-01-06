@@ -45,6 +45,7 @@ const response = object().properties({
     prepayId: string().desc('预支付交易会话标识'),
     codeUrl: string().desc('二维码链接'),
     deviceInfo: string().desc('设备号'),
+    mwebUrl: string().desc('微信H5支付链接')
 })
     .if.properties({tradeType: 'NATIVE'})
     .then.require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId', 'codeUrl')
