@@ -49,7 +49,7 @@ const response = object().properties({
 })
     .if.properties({tradeType: 'NATIVE'})
     .then.require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId', 'codeUrl')
-    .if.properties({tradeType: 'MWEB'})
+    .elseIf.properties({tradeType: 'MWEB'})
     .then.require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId', 'mwebUrl')
     .else
     .require('appId', 'mchId', 'nonceStr', 'sign', 'resultCode', 'tradeType', 'prepayId')
