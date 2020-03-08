@@ -20,6 +20,10 @@ module.exports = class {
                     encodingAESKey: string()
                 })
             }).requireAll(),
+            app: object().desc("微信APP配置").properties({
+                appId: string(),
+                secret: string()
+            }).requireAll(),
             payment: object().desc("微信支付支付").properties({
                 appId: string(),
                 mchId: string(),
@@ -64,6 +68,16 @@ module.exports = class {
         let templateMessage = new TemplateMessage(this.logger, this.config);
 
         return {oauth, user, menu, js, templateMessage}
+    }
+
+    get app() {
+        let OAuth = require('./src/core/app/oauth');
+        let oauth = new OAuth(this.logger, this.config);
+
+        let User = require('./src/core/app/user');
+        let user = new User(this.logger, this.config);
+
+        return {oauth, user}
     }
 
     get payment() {

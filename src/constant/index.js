@@ -8,7 +8,7 @@ module.exports = class {
                 MICROPAY:'MICROPAY',
                 MWEB: 'MWEB'
             },
-            EncrypType: {
+            EncryptType: {
                 MD5:'MD5',
                 SHA256:'SHA256'
             },
