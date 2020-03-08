@@ -30,7 +30,7 @@ module.exports = class extends Base {
             //验签
             let paymentCommon = new PaymentCommon(this.logger, this.config);
 
-            let requestSign = paymentCommon.signGet({data: sourceJson, signType: typeof sourceJson.sign_type === "undefined"?constant.Payment.EncrypType.MD5:sourceJson.sign_type});
+            let requestSign = paymentCommon.signGet({data: sourceJson, signType: typeof sourceJson.sign_type === "undefined"?constant.Payment.EncryptType.MD5:sourceJson.sign_type});
             if(requestSign != sourceJson.sign){
                 response.send('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>');
                 return ;
