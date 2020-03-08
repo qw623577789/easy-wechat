@@ -5,7 +5,7 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async infoGetByOAuthAccessToken({accessToken, openId}) {
+    async infoGetByOauthAccessToken({accessToken, openId}) {
         let response = await this.request.get
                         .url(`https://api.weixin.qq.com/sns/userinfo?access_token=${accessToken}&openid=${openId}&lang=zh_CN`)
                         .execute();
