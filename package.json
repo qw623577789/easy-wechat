@@ -1,6 +1,6 @@
 {
   "name": "easy-wechat",
-  "version": "3.2.1",
+  "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -13,7 +13,7 @@
     "fs": "0.0.1-security",
     "fs-extra": "^4.0.2",
     "should": "^13.2.1",
-    "skip-request": "0.3.1",
+    "skip-request": "0.3.2",
     "uuid": "^3.1.0",
     "xml": "^1.0.1",
     "xml2js-parser": "^1.1.1"
