@@ -7,7 +7,7 @@ const info = {
 
 const request = object({
     imgBase64: string().desc('base64的图片'), 
-    filename
+    filename: string().desc('文件名，默认为default')
 })
     .require('imgBase64');
 
