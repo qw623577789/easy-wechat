@@ -64,10 +64,30 @@ module.exports = class {
         let JS = require('./src/core/platform/js');
         let js = new JS(this.logger, this.config);
 
-        let TemplateMessage = require('./src/core/platform/msg/index.js');
+        let CS = require('./src/core/platform/cs');
+        let cs = new CS(this.logger, this.config);
+
+        let TemplateMessage = require('./src/core/platform/msg/template.js');
         let templateMessage = new TemplateMessage(this.logger, this.config);
 
-        return {oauth, user, menu, js, templateMessage}
+        let CSMessage = require('./src/core/platform/msg/cs.js');
+        let csMessage = new CSMessage(this.logger, this.config);
+
+        let Resource = require('./src/core/platform/resource/index.js');
+        let resource = new Resource(this.logger, this.config);
+
+        return {
+            oauth, 
+            user, 
+            menu, 
+            js, 
+            cs,
+            msg: {
+                template: templateMessage,
+                cs: csMessage,
+            },
+            resource
+        }
     }
 
     get app() {

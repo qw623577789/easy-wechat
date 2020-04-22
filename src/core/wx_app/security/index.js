@@ -23,7 +23,7 @@ module.exports = class extends Base{
         }
     }
 
-    async imgCheck({imgBase64, filename = "default"}) {
+    async imgCheck({imgBase64, filename = "default.jpg"}) {
         const imgBuf = Buffer.from(imgBase64, 'base64');
                                                                                           
         const accessToken = await this.config.context.wxApp.accessToken();

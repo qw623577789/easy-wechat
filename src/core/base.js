@@ -42,4 +42,12 @@ module.exports  = class Base {
         assert(jsonBody.xml.return_code === "SUCCESS", jsonBody.xml.return_msg);
         return jsonBody;
     }
+
+    rmUndef(value) {
+        return Object.entries(value)
+            .reduce((prev, [key, value]) => {
+                if (value !== undefined) prev[key] = value;
+                return prev;
+            }, {});
+    }
 }
