@@ -1,10 +1,10 @@
-const {validator: Validator, schema: {string, object, integer, empty, array, boolean}} = require('@qtk/schema');
+const { validator: Validator, schema: { string, object, integer, empty, array, boolean } } = require('@qtk/schema');
 const Logger = require('./src/lib/logger');
 
 
 module.exports = class {
 
-    constructor(opts, logDirectory = undefined){
+    constructor(opts, logDirectory = undefined) {
         let schema = object().desc("配置key").properties({
             platform: object().desc("公众号配置信息").properties({
                 appId: string(),
@@ -76,17 +76,21 @@ module.exports = class {
         let Resource = require('./src/core/platform/resource/index.js');
         let resource = new Resource(this.logger, this.config);
 
+        let QrCode = require('./src/core/platform/qr_code/index.js');
+        let qrCode = new QrCode(this.logger, this.config);
+
         return {
-            oauth, 
-            user, 
-            menu, 
-            js, 
+            oauth,
+            user,
+            menu,
+            js,
             cs,
             msg: {
                 template: templateMessage,
                 cs: csMessage,
             },
-            resource
+            resource,
+            qrCode,
         }
     }
 
@@ -97,7 +101,7 @@ module.exports = class {
         let User = require('./src/core/app/user');
         let user = new User(this.logger, this.config);
 
-        return {oauth, user}
+        return { oauth, user }
     }
 
     get payment() {
@@ -188,5 +192,5 @@ module.exports = class {
         }
     }
 
-    static get Constant(){return require('./src/constant')}
+    static get Constant() { return require('./src/constant') }
 }
