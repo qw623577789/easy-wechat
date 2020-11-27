@@ -10,13 +10,13 @@ module.exports = class extends Base {
         let queryData = {
             ...permanent
                 ? {
-                    "action_name": sceneId
+                    "action_name": typeof scene === "number"
                         ? `QR_LIMIT_SCENE`
                         : `QR_LIMIT_STR_SCENE`,
                 }
                 : {
                     "expire_seconds": expireSeconds,
-                    "action_name": sceneId
+                    "action_name": typeof scene === "number"
                         ? `QR_SCENE`
                         : `QR_STR_SCENE`,
                 },
