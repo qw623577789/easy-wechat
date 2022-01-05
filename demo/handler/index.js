@@ -16,6 +16,8 @@ const es = new Es({
     payment: {
         appId: 'xxxxxxxxxx',
         mchId: 'xxxxxxxxx',
+        // subAppId: 'xxxxxxxxxx', //子商户模式
+        // subMchId: 'xxxxxxxxx', //子商户模式
         key: 'xxxxxxxxxxxx',
         notifyUrl: 'xxxxxxxxxxxxxxxxxxxx',
         pfxFile: `xxx/apiclient_cert.p12`,

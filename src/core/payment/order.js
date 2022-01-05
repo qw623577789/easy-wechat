@@ -20,10 +20,10 @@ module.exports = class extends Base{
     }){
         let nonceStr = uuid().replace(/-/g, '');
         let requestJson = {
-            appid:  this.config.payment.appId,
+            appid: this.config.payment.appId,
+            mch_id: this.config.payment.mchId,
             attach:  attach,
             body: description,
-            mch_id: this.config.payment.mchId,
             detail:{_cdata:detail},
             nonce_str: nonceStr,
             notify_url: notifyUrl || this.config.payment.notifyUrl,
@@ -36,7 +36,7 @@ module.exports = class extends Base{
         }
         
         if (this.config.payment.subMchId !== undefined) requestJson.sub_mch_id = this.config.payment.subMchId;
-
+       
         if(startTime != undefined){
             requestJson.time_start = dateFormat(startTime, "yyyymmddHHMMss");
             requestJson.time_expire = dateFormat(endTime, "yyyymmddHHMMss");
@@ -53,7 +53,13 @@ module.exports = class extends Base{
 
         if(tradeType == constant.Payment.TradeType.JS){
             if(openId == '') throw new Error('openId is empty');
-            requestJson.openid = openId;
+            if (this.config.payment.subMchId !== undefined) {
+                requestJson.sub_openid = openId;
+                requestJson.sub_appid = this.config.payment.subAppId;
+            }
+            else {
+                requestJson.openid = openId;
+            }
         }
 
         if(sceneInfo != undefined){
@@ -117,6 +123,11 @@ module.exports = class extends Base{
             mch_id: this.config.payment.mchId,
             nonce_str: nonceStr,
             sign_type: signType
+        }
+
+        if (this.config.payment.subMchId !== undefined) {
+            requestJson.sub_mch_id = this.config.payment.subMchId;
+            requestJson.sub_appid = this.config.payment.subAppId;
         }
 
         if(wechatOrderId != undefined){
@@ -201,6 +212,11 @@ module.exports = class extends Base{
             sign_type: signType
         }
 
+        if (this.config.payment.subMchId !== undefined) {
+            requestJson.sub_mch_id = this.config.payment.subMchId;
+            requestJson.sub_appid = this.config.payment.subAppId;
+        }
+        
         if(wechatOrderId != undefined){
             requestJson.transaction_id = wechatOrderId;
         }
