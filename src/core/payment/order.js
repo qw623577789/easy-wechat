@@ -10,7 +10,14 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async create({orderId, description, detail, price, tradeType, openId = undefined, spbillCreateIp = '127.0.0.1', attach =undefined,  startTime = undefined, endTime = undefined, productId = undefined, feeType = 'CNY', deviceInfo = undefined, signType = "MD5", goodsTag = undefined, limitPay = undefined, sceneInfo = undefined, notifyUrl = undefined}){
+    async create({
+        orderId, description, detail, price, tradeType, 
+        openId = undefined, spbillCreateIp = '127.0.0.1', 
+        attach =undefined,  startTime = undefined, endTime = undefined, 
+        productId = undefined, feeType = 'CNY', deviceInfo = undefined, 
+        signType = "MD5", goodsTag = undefined, limitPay = undefined, 
+        sceneInfo = undefined, notifyUrl = undefined
+    }){
         let nonceStr = uuid().replace(/-/g, '');
         let requestJson = {
             appid:  this.config.payment.appId,
@@ -28,6 +35,8 @@ module.exports = class extends Base{
             sign_type: signType
         }
         
+        if (this.config.payment.subMchId !== undefined) requestJson.sub_mch_id = this.config.payment.subMchId;
+
         if(startTime != undefined){
             requestJson.time_start = dateFormat(startTime, "yyyymmddHHMMss");
             requestJson.time_expire = dateFormat(endTime, "yyyymmddHHMMss");
