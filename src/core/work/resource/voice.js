@@ -10,7 +10,11 @@ module.exports = class VoiceResource {
                 MsgType: { _cdata: this._type }
             },
             {
-                MediaId: { _cdata: this._mediaId }
+                Voice: [
+                    {
+                        MediaId: { _cdata: this._mediaId }
+                    }
+                ]
             }
         ]
     }

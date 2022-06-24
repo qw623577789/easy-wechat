@@ -1,7 +1,7 @@
 const Base = require('../../base.js');
 const Cache = require('../../../lib/cache');
 
-module.exports = class extends Base{
+module.exports = class extends Base {
     constructor(logger, config) {
         super(logger, config);
         this._cache = new Cache();
@@ -13,8 +13,8 @@ module.exports = class extends Base{
         if (cache == undefined || cache.accessToken != accessToken) {
             let JsApiTicket = require('./jsApiTicket.js');
             let instance = new JsApiTicket(this.logger, this.config);
-            let {ticket} = await instance.get(accessToken);
-            this._cache.set('jsApiTicket', {accessToken, ticket}, 6500000);
+            let { ticket } = await instance.get(accessToken);
+            this._cache.set('jsApiTicket', { accessToken, ticket }, 6500000);
             return ticket;
         }
         else {
@@ -27,7 +27,7 @@ module.exports = class extends Base{
         if (accessToken == undefined) {
             let AccessToken = require('./accessToken.js');
             let instance = new AccessToken(this.logger, this.config);
-            let {access_token: _accessToken} = await instance.get();
+            let { access_token: _accessToken } = await instance.get();
             this._cache.set('accessToken', _accessToken, 6500000);
             accessToken = _accessToken;
         }

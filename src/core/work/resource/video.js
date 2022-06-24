@@ -12,18 +12,22 @@ module.exports = class VideoResource {
                 MsgType: { _cdata: this._type }
             },
             {
-                MediaId: { _cdata: this._mediaId }
+                Video: [
+                    {
+                        MediaId: { _cdata: this._mediaId }
+                    }
+                ]
             }
         ]
 
         if (this._title != undefined) {
-            attr.push(
+            attr[1].Video.push(
                 { Title: { _cdata: this._title } }
             )
         }
 
         if (this._description != undefined) {
-            attr.push(
+            attr[1].Video.push(
                 { Description: { _cdata: this._description } }
             )
         }

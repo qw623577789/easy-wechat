@@ -1,16 +1,16 @@
-module.exports = class ImageResource{
-    constructor(mediaId){
-        this._mediaId =  mediaId;
+module.exports = class ImageResource {
+    constructor(mediaId) {
+        this._mediaId = mediaId;
         this._type = "image";
     }
 
-    toWechatAttr(){
+    toWechatAttr() {
         return [
             {
-                MsgType: {_cdata:this._type}
-            }, 
+                MsgType: { _cdata: this._type }
+            },
             {
-                MediaId: {_cdata: this._mediaId}
+                MediaId: { _cdata: this._mediaId }
             }
         ]
     }

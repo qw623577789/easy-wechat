@@ -12,6 +12,13 @@ module.exports = class {
                 token: string(),
                 aesKey: string()
             }).require("appId", "secret"),
+            work: object().desc("企业微信配置信息").properties({
+                corpId: string().desc("企业id"),
+                appId: string().desc("自建应用id"),
+                secret: string().desc("自建应用秘钥"),
+                token: string(),
+                aesKey: string()
+            }).require("corpId", "appId", "secret"),
             wxApp: object().desc("微信小程序配置").properties({
                 appId: string(),
                 secret: string(),
@@ -152,6 +159,45 @@ module.exports = class {
         }
     }
 
+    get work() {
+        let OAuth = require('./src/core/work/oauth');
+        let oauth = new OAuth(this.logger, this.config);
+
+        let User = require('./src/core/work/user');
+        let user = new User(this.logger, this.config);
+
+        let UserId = require('./src/core/work/user_id');
+        let userId = new UserId(this.logger, this.config);
+
+        let WxOpenId = require('./src/core/work/wx_open_id');
+        let wxOpenId = new WxOpenId(this.logger, this.config);
+
+        let JS = require('./src/core/work/js');
+        let js = new JS(this.logger, this.config);
+
+        let AppMessage = require('./src/core/work/msg/app.js');
+        let appMessage = new AppMessage(this.logger, this.config);
+
+        let Resource = require('./src/core/work/resource/index.js');
+        let resource = new Resource(this.logger, this.config);
+
+        let QrCode = require('./src/core/work/qr_code/index.js');
+        let qrCode = new QrCode(this.logger, this.config);
+
+        return {
+            oauth,
+            user,
+            js,
+            userId,
+            wxOpenId,
+            msg: {
+                app: appMessage
+            },
+            resource,
+            qrCode,
+        }
+    }
+
     get middleware() {
         let Payment = require('./src/core/middleware/payment');
         let payment = new Payment(this.logger, this.config);
@@ -167,6 +213,9 @@ module.exports = class {
 
         let WxAppXmlMessage = require('./src/core/middleware/wxapp_xml_message');
         let wxAppXmlMessage = new WxAppXmlMessage(this.logger, this.config);
+
+        let WorkMessage = require('./src/core/middleware/work_message');
+        let workMessage = new WorkMessage(this.logger, this.config);
 
         return {
             platformMessage: (replier = undefined) => {
@@ -188,6 +237,10 @@ module.exports = class {
             wxAppXmlMessage: (replier = undefined) => {
                 wxAppXmlMessage.replier = replier;
                 return (request, response) => wxAppXmlMessage.handle(request, response);
+            },
+            workMessage: (replier = undefined) => {
+                workMessage.replier = replier;
+                return (request, response) => workMessage.handle(request, response);
             }
         }
     }

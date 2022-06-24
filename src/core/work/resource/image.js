@@ -1,7 +1,7 @@
-module.exports = class VoiceResource {
+module.exports = class ImageResource {
     constructor(mediaId) {
         this._mediaId = mediaId;
-        this._type = "voice";
+        this._type = "image";
     }
 
     toWechatAttr() {
@@ -10,7 +10,11 @@ module.exports = class VoiceResource {
                 MsgType: { _cdata: this._type }
             },
             {
-                MediaId: { _cdata: this._mediaId }
+                Image: [
+                    {
+                        MediaId: { _cdata: this._mediaId }
+                    }
+                ]
             }
         ]
     }
