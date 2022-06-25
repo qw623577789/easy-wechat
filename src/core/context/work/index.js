@@ -30,7 +30,7 @@ module.exports = class extends Base {
             return ticket;
         }
         else {
-            return cache.ticket;
+            return cache;
         }
     }
 
@@ -45,7 +45,7 @@ module.exports = class extends Base {
             return ticket;
         }
         else {
-            return cache.ticket;
+            return cache;
         }
     }
 }
