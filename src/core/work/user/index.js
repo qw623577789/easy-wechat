@@ -77,4 +77,49 @@ module.exports = class extends Base {
             extAttr: response.extattr,
         });
     }
+
+    async enterpriseCustomerInfoGetByEnterpriseCustomerUserId(enterpriseCustomerUserId) {
+        let accessToken = await this.config.context.work.addressBookAccessToken();
+        let response = await this.request.get
+            .url(`https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get?access_token=${accessToken}&external_userid=${enterpriseCustomerUserId}`)
+            .execute();
+        response = this.commonResponseJsonParse(response);
+
+        return this.rmUndef({
+            enterpriseCustomerUserId: response.external_contact.external_userid,
+            name: response.external_contact.name,
+            position: response.external_contact.position,
+            avatar: response.external_contact.avatar,
+            corpName: response.external_contact.corp_name,
+            corpFullName: response.external_contact.corp_full_name,
+            type: response.external_contact.type,
+            gender: response.external_contact.gender,
+            wechatUnionId: response.external_contact.unionid,
+            externalProfile: response.external_profile,
+            followUser: response.follow_user.map(_ => {
+                return this.rmUndef({
+                    userId: _.userid,
+                    remark: _.remark,
+                    description: _.description,
+                    createTime: _.createtime,
+                    tags: _.tags.map(__ => {
+                        return this.rmUndef({
+                            groupName: __.group_name,
+                            tagName: __.tag_name,
+                            type: __.type
+                        })
+                    }),
+                    remarkCorpName: _.remark_corp_name,
+                    remarkMobiles: _.remark_mobiles,
+                    operUserId: _.oper_userid,
+                    addWay: _.add_way,
+                    wechatChannels: _.wechat_channels === undefined ? undefined : {
+                        nickname: _.wechat_channels.nickname,
+                        source: _.wechat_channels.source,
+                    }
+                })
+            }),
+            nextCursor: response.next_cursor
+        });
+    }
 }

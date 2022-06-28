@@ -16,9 +16,10 @@ module.exports = class {
                 corpId: string().desc("企业id"),
                 appId: string().desc("自建应用id"),
                 secret: string().desc("自建应用秘钥"),
+                addressBookSecret: string().desc("通讯录应用秘钥"),
                 token: string(),
                 aesKey: string()
-            }).require("corpId", "appId", "secret"),
+            }).require("corpId", "appId", "secret", "addressBookSecret"),
             wxApp: object().desc("微信小程序配置").properties({
                 appId: string(),
                 secret: string(),

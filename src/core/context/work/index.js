@@ -12,8 +12,20 @@ module.exports = class extends Base {
         if (accessToken == undefined) {
             let AccessToken = require('./accessToken.js');
             let instance = new AccessToken(this.logger, this.config);
-            let { access_token: _accessToken } = await instance.get();
+            let { access_token: _accessToken } = await instance.get(this.config.work.secret);
             this._cache.set('accessToken', _accessToken, 6500000);
+            accessToken = _accessToken;
+        }
+        return accessToken;
+    }
+
+    async addressBookAccessToken() {
+        let accessToken = this._cache.get('addressBookAccessToken');
+        if (accessToken == undefined) {
+            let AccessToken = require('./accessToken.js');
+            let instance = new AccessToken(this.logger, this.config);
+            let { access_token: _accessToken } = await instance.get(this.config.work.addressBookSecret);
+            this._cache.set('addressBookAccessToken', _accessToken, 6500000);
             accessToken = _accessToken;
         }
         return accessToken;

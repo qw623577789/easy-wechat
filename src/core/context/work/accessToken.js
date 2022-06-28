@@ -5,9 +5,9 @@ module.exports = class extends Base{
         super(logger, config);
     }
 
-    async get() {
+    async get(secret) {
         let response = await this.request.get
-            .url(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${this.config.work.corpId}&corpsecret=${this.config.work.secret}`)
+            .url(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${this.config.work.corpId}&corpsecret=${secret}`)
             .execute();
         return this.commonResponseJsonParse(response);
     }
