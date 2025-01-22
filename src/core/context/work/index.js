@@ -31,6 +31,18 @@ module.exports = class extends Base {
         return accessToken;
     }
 
+    async csAccessToken() {
+        let accessToken = this._cache.get('csAccessToken');
+        if (accessToken == undefined) {
+            let AccessToken = require('./accessToken.js');
+            let instance = new AccessToken(this.logger, this.config);
+            let { access_token: _accessToken } = await instance.get(this.config.work.csAccessToken);
+            this._cache.set('csAccessToken', _accessToken, 6500000);
+            accessToken = _accessToken;
+        }
+        return accessToken;
+    }
+
     async corpjsApiTicket() {
         let cache = this._cache.get('corpJsApiTicket');
         if (cache == undefined) {

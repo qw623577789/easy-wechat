@@ -1,12 +1,11 @@
 {
   "name": "easy-wechat",
-  "version": "5.4.0",
+  "version": "5.5.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "@qtk/schema": "0.0.7",
     "assert": "^1.4.1",
-    "crypto": "0.0.3",
     "dateformat": "^2.2.0",
     "express": "^4.16.3",
     "form-data": "^2.2.0",

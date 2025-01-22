@@ -131,7 +131,7 @@ module.exports = class extends Base {
             touser: toUserIds ? toUserIds.join('|') : toUserIds,
             toparty: toParty ? toParty.join('|') : toParty,
             totag: toTag ? toTag.join('|') : toTag,
-            msgtype: 'music',
+            msgtype: 'file',
             file: {
                 media_id: mediaId
             },

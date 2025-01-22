@@ -17,9 +17,10 @@ module.exports = class {
                 appId: string().desc("自建应用id"),
                 secret: string().desc("自建应用秘钥"),
                 addressBookSecret: string().desc("通讯录应用秘钥"),
+                csSecret: string().desc("微信客服应用秘钥"),
                 token: string(),
                 aesKey: string()
-            }).require("corpId", "appId", "secret", "addressBookSecret"),
+            }).require("corpId"),
             wxApp: object().desc("微信小程序配置").properties({
                 appId: string(),
                 secret: string(),
@@ -38,8 +39,14 @@ module.exports = class {
                 key: string(),
                 notifyUrl: string(),
                 refundNotifyUrl: string(),
-                pfxFile: string().desc('微信商户平台证书')
-            }).require('appId', 'mchId', 'key', 'notifyUrl')
+                pfxFile: string().desc('微信商户平台证书'),
+
+                apiV3CallbackAESKey: string().desc('v3版本回调解密key'),
+                wechatPaySerial: string().desc('微信支付公钥ID'),
+                certificateSerialNumber: string().desc('平台证书序列号'),
+                signPrivateKey: string().desc('签名秘钥'),
+                signPublicKey: string().desc('签名公钥'),
+            }).require('appId', 'mchId')
         })
 
         let validator = new Validator(schema);
@@ -122,10 +129,14 @@ module.exports = class {
         let RedPacket = require('./src/core/payment/red_packet');
         let redPacket = new RedPacket(this.logger, this.config);
 
+        let MerchantTransfer = require('./src/core/payment/merchant_transfer');
+        let merchantTransfer = new MerchantTransfer(this.logger, this.config);
+
         return {
             common,
             order,
-            redPacket
+            redPacket,
+            merchantTransfer
         };
     }
 
@@ -176,6 +187,9 @@ module.exports = class {
         let JS = require('./src/core/work/js');
         let js = new JS(this.logger, this.config);
 
+        let CS = require('./src/core/work/msg/cs');
+        let cs = new CS(this.logger, this.config);
+
         let AppMessage = require('./src/core/work/msg/app.js');
         let appMessage = new AppMessage(this.logger, this.config);
 
@@ -192,10 +206,12 @@ module.exports = class {
             userId,
             wxOpenId,
             msg: {
-                app: appMessage
+                app: appMessage,
+                cs
             },
             resource,
             qrCode,
+
         }
     }
 
@@ -217,6 +233,12 @@ module.exports = class {
 
         let WorkMessage = require('./src/core/middleware/work_message');
         let workMessage = new WorkMessage(this.logger, this.config);
+
+        let WorkCSMessage = require('./src/core/middleware/work_cs_message');
+        let workCSMessage = new WorkCSMessage(this.logger, this.config);
+
+        let MerchantTransferMessage = require('./src/core/middleware/merchant_transfer_message');
+        let merchantTransferMessage = new MerchantTransferMessage(this.logger, this.config);
 
         return {
             platformMessage: (replier = undefined) => {
@@ -242,6 +264,14 @@ module.exports = class {
             workMessage: (replier = undefined) => {
                 workMessage.replier = replier;
                 return (request, response) => workMessage.handle(request, response);
+            },
+            workCSMessage: (replier = undefined) => {
+                workCSMessage.replier = replier;
+                return (request, response) => workCSMessage.handle(request, response);
+            },
+            merchantTransferMessage: (replier = undefined) => {
+                merchantTransferMessage.replier = replier;
+                return (request, response) => merchantTransferMessage.handle(request, response);
             }
         }
     }
