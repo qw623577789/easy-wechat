@@ -1,6 +1,5 @@
 const CommonPayment = require('./common.js');
 const Base = require('../base.js');
-
 module.exports = class extends Base {
     constructor(logger, config = undefined) {
         super(logger, config);
@@ -40,14 +39,17 @@ module.exports = class extends Base {
             .header({
                 'Accept': 'application/json',
                 'Wechatpay-Serial': this.config.payment.wechatPaySerial,
-                'Authorization': common.v3SignGet('POST', '/v3/fund-app/mch-transfer/transfer-bills', requestJson)
+                'Authorization': common.v3SignGet('POST', '/v3/fund-app/mch-transfer/transfer-bills', requestJson),
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
             })
-            .json(requestText)
+            .json(requestJson)
             .execute();
 
-        assert(response.status == 200, "error response status");
+        response = response.toJson();
 
-        response = response.toJSON();
+        if (response.code !== undefined) {
+            throw new Error(response.message);
+        }
 
         let output = this.rmUndef({
             outBillNo: response.out_bill_no,
@@ -57,6 +59,7 @@ module.exports = class extends Base {
             failReason: response.fail_reason,
             packageInfo: response.package_info,
             mchId: this.config.payment.mchId,
+            appId: this.config.payment.appId,
         });
 
         return output;
@@ -70,14 +73,17 @@ module.exports = class extends Base {
             .url(`https://api.mch.weixin.qq.com/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}/cancel`)
             .header({
                 'Accept': 'application/json',
-                'Authorization': common.v3SignGet('POST', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}/cancel`, requestJson)
+                'Authorization': common.v3SignGet('POST', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}/cancel`, {}),
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
             })
-            .json(requestText)
+            .json({})
             .execute();
 
-        assert(response.status == 200, "error response status");
+        response = response.toJson();
 
-        response = response.toJSON();
+        if (response.code !== undefined) {
+            throw new Error(response.message);
+        }
 
         let output = {
             outBillNo: response.out_bill_no,
@@ -97,13 +103,16 @@ module.exports = class extends Base {
             .url(`https://api.mch.weixin.qq.com/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}`)
             .header({
                 'Accept': 'application/json',
-                'Authorization': common.v3SignGet('GET', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}`, requestJson)
+                'Authorization': common.v3SignGet('GET', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${orderId}`),
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
             })
             .execute();
 
-        assert(response.status == 200, "error response status");
+        response = response.toJson();
 
-        response = response.toJSON();
+        if (response.code !== undefined) {
+            throw new Error(response.message);
+        }
 
         let output = this.rmUndef({
             mchId: response.mch_id,
@@ -132,13 +141,16 @@ module.exports = class extends Base {
             .url(`https://api.mch.weixin.qq.com/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${wechatOrderId}`)
             .header({
                 'Accept': 'application/json',
-                'Authorization': common.v3SignGet('GET', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${wechatOrderId}`, requestJson)
+                'Authorization': common.v3SignGet('GET', `/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/${wechatOrderId}`),
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
             })
             .execute();
 
-        assert(response.status == 200, "error response status");
+        response = response.toJson();
 
-        response = response.toJSON();
+        if (response.code !== undefined) {
+            throw new Error(response.message);
+        }
 
         let output = this.rmUndef({
             mchId: response.mch_id,

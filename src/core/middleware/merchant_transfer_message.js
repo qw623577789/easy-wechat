@@ -15,9 +15,9 @@ module.exports = class extends Base {
         try {
             let {
                 'wechatpay-serial': wechatpaySerial,
-                'Wechatpay-Signature': wechatpaySignature,
-                'Wechatpay-Timestamp': wechatpayTimestamp,
-                'Wechatpay-Nonce': wechatpayNonce
+                'wechatpay-signature': wechatpaySignature,
+                'wechatpay-timestamp': wechatpayTimestamp,
+                'wechatpay-nonce': wechatpayNonce
             } = request.headers;
 
             request.rawBody = '';
@@ -60,12 +60,13 @@ module.exports = class extends Base {
     _signatureCheck(bodyString, signature, timestamp, nonce) {
         let signRawString = `${timestamp}\n${nonce}\n${bodyString}\n`;
 
-        let signer = crypto.createSign('RSA-SHA256');
+        let signer = crypto.createVerify('RSA-SHA256');
         signer.update(signRawString);
-        let sign = signer.sign(this.config.payment.signPublicKey, 'base64');
 
-        if (sign !== signature) {
-            throw new Error(`invaild signature: ${sign},callback:${signature}`);
+        let check = signer.verify(this.config.payment.signPublicKey, signature, 'base64');
+
+        if (!check) {
+            throw new Error(`invaild signature ,callback:${signature}`);
         }
     }
 

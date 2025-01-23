@@ -37,6 +37,7 @@ const response = object().properties({
     failReason: string().desc('失败原因'),
     packageInfo: string().desc('跳转领取页面的package信息'),
     mchId: string().desc('商户id'),
+    appId: string(),
 })
-    .require('outBillNo', 'transferBillNo', 'createTime', 'state', 'mchId')
+    .require('outBillNo', 'transferBillNo', 'createTime', 'state', 'mchId', 'appId')
 module.exports = { info, request, response };

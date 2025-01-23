@@ -29,12 +29,12 @@ module.exports = class extends Base {
     v3SignGet(method, path, data) {
         let nonceStr = uuid().replace(/-/g, '');
         let timestamp = parseInt(Date.now() / 1000);
-        let signRawString = `${method}\n${path}\n${timestamp}\n${nonceStr}\n${JSON.stringify(data)}\n`;
+        let signRawString = `${method}\n${path}\n${timestamp}\n${nonceStr}\n${method === 'POST' ? JSON.stringify(data) : ""}\n`;
 
         let signer = crypto.createSign('RSA-SHA256');
         signer.update(signRawString);
         let sign = signer.sign(this.config.payment.signPrivateKey, 'base64');
 
-        return `WECHATPAY2-SHA256-RSA2048 mchid="${this.config.payment.mchId}",nonce_str="${nonceStr}",signature="${sign}",timestamp="${timestamp}",serial_no=${this.config.payment.certificateSerialNumber}`;
+        return `WECHATPAY2-SHA256-RSA2048 mchid="${this.config.payment.mchId}",nonce_str="${nonceStr}",signature="${sign}",timestamp="${timestamp}",serial_no="${this.config.payment.certificateSerialNumber}"`;
     }
 }
